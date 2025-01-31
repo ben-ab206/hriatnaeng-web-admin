@@ -1,5 +1,7 @@
 import { z } from "zod";
 import { protectedProcedure, publicProcedure, router } from "../server";
+import { TABLE_USERS } from "@/constants/tables.constant";
+import { User } from "@/@types/user";
 
 export const usersRouter = router({
   getUser: protectedProcedure
@@ -14,6 +16,22 @@ export const usersRouter = router({
       if (error) throw error;
       return user;
     }),
+
+  getMe: protectedProcedure.query(async ({ ctx }) => {
+    const { data: authUser, error } = await ctx.supabase.auth.getUser();
+
+    if (error) throw error;
+
+    const { data: user, error: userError } = await ctx.supabase
+      .from(TABLE_USERS)
+      .select("*")
+      .eq("user_id", authUser.user.id)
+      .single();
+
+    if (userError) throw userError;
+
+    return user as User;
+  }),
 
   createUser: publicProcedure
     .input(

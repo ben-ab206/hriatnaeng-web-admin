@@ -2,6 +2,7 @@ import { Providers } from "./providers";
 import "./globals.css";
 import { AuthGuard } from "@/components/auth-guard";
 import { ClientLayout } from "@/components/layout/client-layout";
+import { Toaster } from "@/components/ui/sonner";
 
 export default function RootLayout({
   children,
@@ -16,6 +17,7 @@ export default function RootLayout({
             <ClientLayout>{children}</ClientLayout>
           </AuthGuard>
         </Providers>
+        <Toaster position="top-center" />
       </body>
     </html>
   );

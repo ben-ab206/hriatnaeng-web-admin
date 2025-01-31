@@ -6,7 +6,7 @@ export type RoleModulePermissons = {
   role?: Role;
   module: string;
   permissions: number;
-  updated_at: string;
-  created_at: string;
+  updated_at?: string;
+  created_at?: string;
   created_by: number;
 };
