@@ -1,0 +1,1 @@
+export type OnSortParam = { order: 'asc' | 'desc' | ''; key: string | number }

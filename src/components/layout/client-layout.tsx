@@ -12,7 +12,7 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
       {!isAuthPage && <AppSidebar />}
       <main className="min-h-screen w-full">
         {!isAuthPage && <SidebarTrigger />}
-        {children}
+        <div className="p-5">{children}</div>
       </main>
     </SidebarProvider>
   );

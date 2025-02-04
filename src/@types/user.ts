@@ -4,7 +4,7 @@ export type User = {
     id: number;
     role_id: number;
     name: string;
-    role?: Role,
+    roles?: Role,
     created_at: string
     updated_at?: string
     email?: string
