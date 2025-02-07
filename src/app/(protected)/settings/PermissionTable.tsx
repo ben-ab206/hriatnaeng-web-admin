@@ -18,7 +18,7 @@ const PermissionTable = () => {
   const { data: role_module_permissions = [] } = api.roleModulePermissons.getRoleModulePermissions.useQuery();
   
  
-  const { toast } = useToast();y
+  const { toast } = useToast();
 
   const view = () => {
 
