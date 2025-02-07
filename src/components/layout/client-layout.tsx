@@ -6,13 +6,13 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 export function ClientLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isAuthPage = pathname.startsWith("/auth");
+  const isAuthPage = pathname.startsWith("/auth") || pathname.startsWith("/set-password");
   return (
     <SidebarProvider>
       {!isAuthPage && <AppSidebar />}
       <main className="min-h-screen w-full">
         {!isAuthPage && <SidebarTrigger />}
-        {children}
+        <div className="p-5">{children}</div>
       </main>
     </SidebarProvider>
   );

@@ -12,17 +12,15 @@ import { ModuleName, MODULES } from "@/constants/modules";
 import { formatRole } from "@/lib/utils";
 import { api } from "@/trpc/client";
 import { Eye, Plus, Pencil, Trash } from "lucide-react";
-
 import { useToast } from "@/hooks/use-toast";
 const PermissionTable = () => {
   const { data: roles = [] } = api.roles.getAdminRoles.useQuery();
   const { data: role_module_permissions = [] } = api.roleModulePermissons.getRoleModulePermissions.useQuery();
   
  
-  const { toast } = useToast(); // Use `useToast` correctly
+  const { toast } = useToast();y
 
   const view = () => {
-    console.log("View function triggered"); // Debugging
 
     toast({
       title: "View",
@@ -30,12 +28,9 @@ const PermissionTable = () => {
       duration: 1000,
       className: "border-sky-300",
     });
-
-    console.log("Toast function executed"); // Debugging
   };
 
   const Add = () => {
-    console.log("View function triggered"); // Debugging
 
     toast({
       title: "Success",
@@ -43,8 +38,6 @@ const PermissionTable = () => {
       duration: 1000,
       className: "border-green-500",
     });
-
-    console.log("Toast function executed"); // Debugging
   };
 
   return (
