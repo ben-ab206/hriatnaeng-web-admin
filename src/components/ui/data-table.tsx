@@ -15,15 +15,23 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { DataTablePagination } from "./data-table-pagination";
+import { PagingData } from "@/@types/paging-data";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  pagingData?: PagingData;
+  onPageChange?: (value: number) => void;
+  onSelectChange?: (value: number) => void;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  pagingData,
+  onPageChange,
+  onSelectChange,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -32,7 +40,7 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="rounded-md border">
+    <div className="space-y-5">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -58,6 +66,7 @@ export function DataTable<TData, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
+                className="hover:bg-gray-100"
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
@@ -75,6 +84,12 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
+      <DataTablePagination
+        pagingData={pagingData}
+        table={table}
+        onPageChange={onPageChange}
+        onSelectChange={onSelectChange}
+      />
     </div>
   );
 }

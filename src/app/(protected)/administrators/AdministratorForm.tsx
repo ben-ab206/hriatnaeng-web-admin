@@ -27,11 +27,13 @@ import { NewAdminType } from "./StaticTypes";
 import { formatRole } from "@/lib/utils";
 
 interface AdministratorFormProps {
+  loading?: boolean;
   initialData?: NewAdminType;
   onClickSave: (values: NewAdminType) => void;
 }
 
 const AdministratorForm = ({
+  loading = false,
   initialData,
   onClickSave,
 }: AdministratorFormProps) => {
@@ -46,9 +48,7 @@ const AdministratorForm = ({
         },
   });
 
-  const {
-    data: roles = [],
-  } = api.roles.getAdminRoles.useQuery();
+  const { data: roles = [] } = api.roles.getAdminRoles.useQuery();
 
   return (
     <div>
@@ -102,9 +102,13 @@ const AdministratorForm = ({
                       <SelectValue />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent>
+                  <SelectContent className="bg-white">
                     {roles.map((role, idx) => (
-                      <SelectItem value={role.id.toString()} key={idx}>
+                      <SelectItem
+                        value={role.id.toString()}
+                        key={idx}
+                        className="hover:bg-gray-100"
+                      >
                         {formatRole(role.name)}
                       </SelectItem>
                     ))}
@@ -115,7 +119,7 @@ const AdministratorForm = ({
             )}
           />
 
-          <Button type="submit" className="w-full text-white">
+          <Button loading={loading} type="submit" className="w-full text-white">
             Submit
           </Button>
         </form>

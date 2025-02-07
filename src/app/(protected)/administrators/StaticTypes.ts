@@ -1,12 +1,6 @@
 import { newAdminSchema } from "@/trpc/schema/admin.schema";
 import { z } from "zod";
 
-export type PagingData = {
-    total: number
-    pageIndex: number
-    pageSize: number
-}
-
 export type SortKeys =
     | 'created_at'
 

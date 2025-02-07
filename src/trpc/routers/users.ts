@@ -2,6 +2,7 @@ import { z } from "zod";
 import { protectedProcedure, publicProcedure, router } from "../server";
 import { TABLE_ROLES, TABLE_USERS } from "@/constants/tables.constant";
 import { User } from "@/@types/user";
+import { inviteAdminSchema } from "../schema/auth";
 
 export const usersRouter = router({
   getUser: protectedProcedure
@@ -66,6 +67,8 @@ export const usersRouter = router({
   getMe: protectedProcedure.query(async ({ ctx }) => {
     const { data: authUser, error } = await ctx.supabase.auth.getUser();
 
+    console.log(authUser);
+
     if (error) throw error;
 
     const { data: user, error: userError } = await ctx.supabase
@@ -92,6 +95,49 @@ export const usersRouter = router({
         .insert([input])
         .select()
         .single();
+
+      if (error) throw error;
+      return data;
+    }),
+
+  inviteAdminUser: protectedProcedure
+    .input(inviteAdminSchema)
+    .mutation(async ({ ctx, input }) => {
+      const { data, error } = await ctx.supabase.functions.invoke(
+        "admin-user-api",
+        {
+          body: {
+            type: "create_user",
+            email: input.email,
+            name: input.name,
+            role_id: input.role_id,
+          },
+        }
+      );
+      if (error) throw error;
+      return data;
+    }),
+
+  definePassword: protectedProcedure
+    .input(
+      z.object({
+        email: z.string().email().min(1, { message: "email is required" }),
+        password: z
+          .string()
+          .min(6, { message: "password must be at least 6 characters" }),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { data, error } = await ctx.supabase.functions.invoke(
+        "admin-user-api",
+        {
+          body: {
+            type: "update_password",
+            email: input.email,
+            new_password: input.password,
+          },
+        }
+      );
 
       if (error) throw error;
       return data;

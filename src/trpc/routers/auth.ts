@@ -1,3 +1,4 @@
+import { User } from "@supabase/supabase-js";
 import {
   resetPasswordSchema,
   signInSchema,
@@ -6,6 +7,7 @@ import {
 } from "../schema/auth";
 import { router, publicProcedure, protectedProcedure } from "../server";
 import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 
 export const authRouter = router({
   signUp: publicProcedure
@@ -214,7 +216,7 @@ export const authRouter = router({
       }
 
       return {
-        user: userData,
+        user: userData as User,
         session,
       };
     } catch (error) {
@@ -226,4 +228,27 @@ export const authRouter = router({
       });
     }
   }),
+
+  setSessionByToken: publicProcedure
+    .input(
+      z.object({
+        accessToken: z.string(),
+        refreshToken: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      try {
+        await ctx.supabase.auth.setSession({
+          access_token: input.accessToken,
+          refresh_token: input.refreshToken,
+        });
+      } catch (error) {
+        if (error instanceof TRPCError) throw error;
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "An error occurred while defining session",
+          cause: error,
+        });
+      }
+    }),
 });

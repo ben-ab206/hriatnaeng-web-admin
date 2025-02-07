@@ -1,21 +1,28 @@
 import { User } from "@/@types/user";
 import { ColumnDef } from "@tanstack/react-table";
-import { PagingData } from "./StaticTypes";
 import { DeleteIcon, EditIcon } from "lucide-react";
-import { DataTable } from "./components/data-table";
+import { DataTable } from "../../../components/ui/data-table";
+import { PagingData } from "@/@types/paging-data";
+import { formatRole } from "@/lib/utils";
 
 interface AdministratorTableProps {
   pagingData: PagingData;
   loading?: boolean;
   data: User[];
-  onPageChange?: () => void;
-  onSelectChange?: () => void;
+  onPageChange?: (value: number) => void;
+  onSelectChange?: (value: number) => void;
+  onEdit: (row: User) => void;
+  onDelete: (row: User) => void;
 }
 
 const AdministratorTable = ({
   pagingData,
+  onPageChange,
+  onSelectChange,
   loading = false,
   data,
+  onEdit,
+  onDelete
 }: AdministratorTableProps) => {
   const ActionColumn = ({
     onEdit,
@@ -36,11 +43,13 @@ const AdministratorTable = ({
     );
   };
 
+  console.info(loading);
+
   const columns: ColumnDef<User>[] = [
     {
       header: "No.",
       cell: ({ row }) =>
-        row.index + 1 + (pagingData.pageIndex - 1) * pagingData.pageSize,
+        row.index + 1 + (pagingData.page - 1) * pagingData.size,
     },
     {
       header: "Name",
@@ -53,17 +62,23 @@ const AdministratorTable = ({
     },
     {
       header: "Role",
-      cell: ({ row }) => row.original.roles?.name ?? "",
+      cell: ({ row }) => formatRole(row.original.roles?.name ?? ""),
     },
     {
       header: "Actions",
-      cell: ({ row }) => <ActionColumn onEdit={() => {}} onDelete={() => {}} />,
+      cell: ({ row }) => <ActionColumn onEdit={() => onEdit(row.original)} onDelete={() => onDelete(row.original)} />,
     },
   ];
 
   return (
     <div>
-      <DataTable data={data} columns={columns} />
+      <DataTable
+        data={data}
+        columns={columns}
+        pagingData={pagingData}
+        onPageChange={onPageChange!}
+        onSelectChange={onSelectChange!}
+      />
     </div>
   );
 };
