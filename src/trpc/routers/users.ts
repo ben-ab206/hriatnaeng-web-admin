@@ -67,8 +67,6 @@ export const usersRouter = router({
   getMe: protectedProcedure.query(async ({ ctx }) => {
     const { data: authUser, error } = await ctx.supabase.auth.getUser();
 
-    console.log(authUser);
-
     if (error) throw error;
 
     const { data: user, error: userError } = await ctx.supabase

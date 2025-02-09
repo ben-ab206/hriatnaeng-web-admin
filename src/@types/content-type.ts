@@ -1,0 +1,1 @@
+export type ContentType = 'Books' | 'Podcasts' | 'Movie_Summary'

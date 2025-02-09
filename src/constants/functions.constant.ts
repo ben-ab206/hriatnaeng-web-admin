@@ -1,0 +1,1 @@
+export const GET_ALL_TOP_BANNERS = 'get_all_top_banners'

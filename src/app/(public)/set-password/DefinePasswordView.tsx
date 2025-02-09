@@ -93,9 +93,7 @@ const DefinePasswordView = () => {
   useEffect(() => {
     const handleAuth = async () => {
       const { accessToken, refreshToken } = getTokens();
-
-      console.log(accessToken, refreshToken);
-
+      
       if (accessToken && refreshToken) {
         await setSession({
           accessToken,

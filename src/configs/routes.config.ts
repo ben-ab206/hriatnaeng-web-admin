@@ -18,5 +18,11 @@ export const routes: NavItem[] = [
     url: "/administrators",
     icon: "settings",
     module: "administrators"
+  },
+  {
+    title: "Top Banners",
+    url: "/top-banners",
+    icon: "settings",
+    module: "top-banners"
   }
 ];
