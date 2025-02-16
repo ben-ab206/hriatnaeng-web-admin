@@ -1,5 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { ChangeEvent } from "react";
+import { HiOutlineSearch } from 'react-icons/hi'
 
 interface AdministratorHeaderToolsProps {
   searchValue: string;
@@ -17,7 +18,7 @@ const AdministratorHeaderTools = ({
     <div className="flex flex-row items-center justify-between">
       <div></div>
       <div>
-        <Input value={searchValue} onChange={handleOnChange} />
+        <Input value={searchValue} className="max-w-md md:w-52 md:mb-0 mb-4 focus:ring-0 focus:outline-none" prefix={<HiOutlineSearch className="text-lg" />} onChange={handleOnChange} />
       </div>
     </div>
   );

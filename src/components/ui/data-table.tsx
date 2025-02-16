@@ -47,7 +47,17 @@ export function DataTable<TData, TValue>({
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id}>
+                  <TableHead 
+                    key={header.id}
+                    className={`${
+                        header.index == 0 &&
+                        'rounded-l-[6px] '
+                    } bg-[#447AED] text-white ${
+                        header.index ==
+                            headerGroup.headers.length -
+                                1 && ' rounded-r-[6px]'
+                    }`}
+                  >
                     {header.isPlaceholder
                       ? null
                       : flexRender(

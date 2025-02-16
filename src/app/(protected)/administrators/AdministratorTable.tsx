@@ -1,6 +1,6 @@
 import { User } from "@/@types/user";
 import { ColumnDef } from "@tanstack/react-table";
-import { DeleteIcon, EditIcon } from "lucide-react";
+// import { DeleteIcon, EditIcon } from "lucide-react";
 import { DataTable } from "../../../components/ui/data-table";
 import { PagingData } from "@/@types/paging-data";
 import { formatRole } from "@/lib/utils";
@@ -34,10 +34,10 @@ const AdministratorTable = ({
     return (
       <div className="flex flex-row space-x-3 items-center">
         <button onClick={onEdit}>
-          <EditIcon />
+          <img src={'/icons/edit-icon.png'} className="h-4 w-4" />
         </button>
         <button onClick={onDelete}>
-          <DeleteIcon />
+          <img src={'/icons/remove-icon.png'} className="h-4 w-4" />
         </button>
       </div>
     );

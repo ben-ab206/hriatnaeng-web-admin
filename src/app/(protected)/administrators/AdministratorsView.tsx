@@ -48,6 +48,23 @@ const AdministratorsView = () => {
     setShowDialog(false);
   };
 
+  const onPageChange = (v: number) => {
+    setPagingData((prev) => ({
+        ...prev,
+        page: v,
+    }))
+  }
+
+  const onSelectChange = (v: number) => {
+    console.log("Changing page size to:", v);
+    setPagingData((prev) => ({
+        ...prev,
+        size: v,
+        page: 1,
+    }))
+    
+}
+
   const handleSave = async (values: NewAdminType) => {
     await createAdminUser({
       email: values.email,
@@ -60,10 +77,15 @@ const AdministratorsView = () => {
     if (admin_users?.total !== undefined) {
       setPagingData((prev) => ({
         ...prev,
-        total: admin_users.total,
+        total: admin_users.total ,
       }));
     }
   }, [admin_users?.total]);
+
+  useEffect(() => {
+    refetch(); // Re-fetch data when the page size changes
+    console.log("Refetching data with page size:", pagingData.size);
+  }, [pagingData.size, refetch]);
 
   return (
     <div className="space-y-5">
@@ -76,8 +98,8 @@ const AdministratorsView = () => {
         data={admin_users?.data ?? []}
         pagingData={pagingData}
         loading={isLoading}
-        onPageChange={(v) => console.log(v)}
-        onSelectChange={(v) => console.log(v)}
+        onPageChange={onPageChange}
+        onSelectChange={onSelectChange}
         onEdit={(v) => setToEditItem(v)}
         onDelete={(v) => console.info(v)}
       />
