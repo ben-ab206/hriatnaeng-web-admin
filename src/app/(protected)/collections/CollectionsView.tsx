@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import CollectionsTableHeader from "./_components/CollectionsTableHeader";
 import CollectionsTableSearchTool from "./_components/CollectionsTableSearchTool";

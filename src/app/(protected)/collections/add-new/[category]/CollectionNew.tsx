@@ -1,3 +1,5 @@
+"use client";
+
 import CollectionForm from "../../CollectionForm";
 import { FormModel } from "../../StaticTypes";
 import { useEffect, useState } from "react";

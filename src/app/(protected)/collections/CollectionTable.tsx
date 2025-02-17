@@ -28,13 +28,13 @@ const ActionColumn = ({
   return (
     <div className="flex justify-start space-x-4">
       <button onClick={onEdit}>
-        <Image alt="edit" src={"/icons/edit-icon.png"} className="h-4 w-4" />
+        <Image alt="edit" src={"/icons/edit-icon.png"} width={20} height={20} />
       </button>
       <span
         className="cursor-pointer px-2 hover:text-red-500"
         onClick={onDelete}
       >
-        <Image alt="delete" src={"/icons/delete-icon.png"} className="h-4 w-4" />
+        <Image alt="delete" src={"/icons/delete-icon.png"}  width={20} height={20} />
       </span>
     </div>
   );
