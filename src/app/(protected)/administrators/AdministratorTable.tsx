@@ -5,6 +5,7 @@ import { DataTable } from "../../../components/ui/data-table";
 import { PagingData } from "@/@types/paging-data";
 import { formatRole } from "@/lib/utils";
 
+
 interface AdministratorTableProps {
   pagingData: PagingData;
   loading?: boolean;
@@ -74,6 +75,7 @@ const AdministratorTable = ({
     <div>
       <DataTable
         data={data}
+        loading={loading}
         columns={columns}
         pagingData={pagingData}
         onPageChange={onPageChange!}

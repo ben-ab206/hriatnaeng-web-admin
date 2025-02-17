@@ -17,10 +17,12 @@ import {
 } from "@/components/ui/table";
 import { DataTablePagination } from "./data-table-pagination";
 import { PagingData } from "@/@types/paging-data";
+import { Skeleton } from "@/components/ui/skeleton"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  loading?: boolean;
   pagingData?: PagingData;
   onPageChange?: (value: number) => void;
   onSelectChange?: (value: number) => void;
@@ -29,6 +31,7 @@ interface DataTableProps<TData, TValue> {
 export function DataTable<TData, TValue>({
   columns,
   data,
+  loading = false,
   pagingData,
   onPageChange,
   onSelectChange,
@@ -71,7 +74,38 @@ export function DataTable<TData, TValue>({
           ))}
         </TableHeader>
         <TableBody>
-          {table.getRowModel().rows?.length ? (
+          {loading && table.getRowModel().rows?.length === 0 ? (
+          // sleketon
+          Array.from({ length: 5 }).map((_, index) => (
+            <TableRow key={index} className="border-b">
+              <TableCell className="w-[80px]">
+                <Skeleton className="w-full h-4 bg-[#EEF2FF]" />
+              </TableCell>
+              <TableCell className="w-[140px]">
+                <Skeleton className="w-full h-4 bg-[#EEF2FF]" />
+              </TableCell>
+              <TableCell className="w-[180px]">
+                <Skeleton className="w-full h-4 bg-[#EEF2FF]" />
+              </TableCell>
+              <TableCell className="flex-1">
+                <Skeleton className="w-full h-4 bg-[#EEF2FF]" />
+              </TableCell>
+              <TableCell className="w-[120px]">
+                <Skeleton className="w-full h-4 bg-[#EEF2FF]" />
+              </TableCell>
+              <TableCell className="w-[100px]">
+                <Skeleton className="w-full h-4 bg-[#EEF2FF]" />
+              </TableCell>
+            </TableRow>
+          ))
+        
+          ) :  table.getRowModel().rows?.length === 0 ?  (
+            <TableRow>
+              <TableCell colSpan={columns.length} className="h-24 text-center">
+                No results.
+              </TableCell>
+            </TableRow>
+          ) : (
             table.getRowModel().rows.map((row) => (
               <TableRow
                 key={row.id}
@@ -85,13 +119,7 @@ export function DataTable<TData, TValue>({
                 ))}
               </TableRow>
             ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
-              </TableCell>
-            </TableRow>
-          )}
+          ) }
         </TableBody>
       </Table>
       <DataTablePagination
