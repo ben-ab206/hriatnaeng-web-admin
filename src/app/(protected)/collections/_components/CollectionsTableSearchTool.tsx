@@ -15,6 +15,7 @@ const CollectionsTableSearchTool = ({
 
   return (
     <div className="flex flex-row w-full justify-end my-5">
+      <div></div>
       <Input
         className="max-w-md md:w-52 md:mb-0 mb-4"
         placeholder="Search"
