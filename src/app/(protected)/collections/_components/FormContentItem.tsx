@@ -2,7 +2,6 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import { CiCircleMinus } from "react-icons/ci";
 import { MdDragIndicator } from "react-icons/md";
 import { FormItem } from "../StaticTypes";
-import Image from "next/image";
 
 interface FormContentItemProps {
   item: FormItem;
@@ -26,11 +25,6 @@ const FormContentItem = ({
             <MdDragIndicator size={20} />
           </div>
         )}
-        <div>
-          {item.image_path && (
-            <Image alt="" src={item.image_path} className="h-10 w-10 rounded-full" />
-          )}
-        </div>
         <div className="flex flex-row space-x-2">
           <span className="pl-3">{item.title}</span>
         </div>

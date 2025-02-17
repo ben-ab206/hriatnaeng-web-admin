@@ -12,6 +12,9 @@ export const podcastsRouter = router({
       })
     )
     .query(async ({ ctx, input }) => {
+      if (!input.query.trim()) {
+        return [];
+      }
       const { data, error } = await ctx.supabase
         .from(TABLE_PODCASTS)
         .select("*")

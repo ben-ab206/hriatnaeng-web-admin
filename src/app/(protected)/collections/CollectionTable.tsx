@@ -114,8 +114,7 @@ CollectionTableProps) => {
           return (
             <Switch
               checked={row.original.status === "Published"}
-              color="green-500"
-              onChange={() => onChangePublished(row.original)}
+              onCheckedChange={() => onChangePublished(row.original)}
             />
           );
         },

@@ -9,7 +9,7 @@ import CollectionDeleteConfirmation from "./_components/CollectionDeleteConfirma
 import { PagingData } from "@/@types/paging-data";
 import { api } from "@/trpc/client";
 import { useRouter } from "next/navigation";
-import { Dialog } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
 const CollectionsView = () => {
@@ -104,28 +104,28 @@ const CollectionsView = () => {
         onPageChange={onPageChange}
         onSelectChange={onSelectChange}
       />
-      <Dialog open={showDialog} onOpenChange={onCloseDialog}>
-        <div className="space-y-5 w-full">
-          <div>
-            <span>Choose New Collection Category</span>
+      <Dialog open={showDialog === true} onOpenChange={onCloseDialog}>
+        <DialogContent>
+          <DialogTitle>Choose New Collection Category</DialogTitle>
+          <div className="space-y-5 w-full">
+            <div>
+              <Button
+                className="w-full"
+                onClick={() => navigate.push("collections/add-new/book")}
+              >
+                Books
+              </Button>
+            </div>
+            <div>
+              <Button
+                className="w-full"
+                onClick={() => navigate.push("collections/add-new/podcast")}
+              >
+                Podcasts
+              </Button>
+            </div>
           </div>
-          <div>
-            <Button
-              className="w-full"
-              onClick={() => navigate.push("add-new/book")}
-            >
-              Books
-            </Button>
-          </div>
-          <div>
-            <Button
-              className="w-full"
-              onClick={() => navigate.push("add-new/podcast")}
-            >
-              Podcasts
-            </Button>
-          </div>
-        </div>
+        </DialogContent>
       </Dialog>
       {selectedCollection && (
         <CollectionDeleteConfirmation

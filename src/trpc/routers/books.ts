@@ -6,10 +6,15 @@ import { Book } from "@/@types/book";
 export const booksRouter = router({
   // without pagingation
   fetchBooksContent: protectedProcedure
-    .input(z.object({
-        query: z.string()
-    }))
+    .input(
+      z.object({
+        query: z.string(),
+      })
+    )
     .query(async ({ ctx, input }) => {
+      if (!input.query.trim()) {
+        return [];
+      }
       const { data, error } = await ctx.supabase
         .from(TABLE_BOOKS)
         .select("*")

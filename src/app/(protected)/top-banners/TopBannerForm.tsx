@@ -141,7 +141,6 @@ const TopBannerForm = ({ pageType, query }: TopBannerFormProps) => {
             Cancel
           </Button>
           <Button
-            color="blue-600"
             type="button"
             size={"lg"}
             loading={submitting}

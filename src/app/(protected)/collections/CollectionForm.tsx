@@ -84,16 +84,17 @@ const CollectionForm = ({
             className="px-8 flex items-center justify-end py-4"
             stickyClass="border-t border-gray-800"
           >
-            <div className="md:flex items-center">
+            <div className="flex flex-row space-x-3 items-center">
               <Button
-                className="ltr:mr-3 rtl:ml-3"
+                className="bg-gray-600"
+                size={"lg"}
                 type="button"
                 onClick={() => onDiscard?.()}
               >
                 Cancel
               </Button>
-              <Button color="gray-200" type="submit" loading={isSubmitting}>
-                <span className="text-black">Save</span>
+              <Button type="submit" size={"lg"} loading={isSubmitting}>
+                <span className="text-white">Save</span>
               </Button>
             </div>
           </StickyFooter>
