@@ -24,5 +24,11 @@ export const routes: NavItem[] = [
     url: "/top-banners",
     icon: "settings",
     module: "top-banners"
+  },
+  {
+    title: "Collections",
+    url: "/collections",
+    icon: "settings",
+    module: "collections"
   }
 ];
