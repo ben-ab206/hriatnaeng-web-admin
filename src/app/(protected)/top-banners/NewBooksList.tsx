@@ -39,7 +39,7 @@ const NewBooksList = ({
   };
 
   const { data: all_books, isFetching: isFetchingAllBooksContent } =
-    api.books.getBooksContent.useQuery({
+    api.books.fetchBooksContent.useQuery({
       query: debouncedQuery,
     });
 

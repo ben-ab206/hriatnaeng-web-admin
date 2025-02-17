@@ -5,7 +5,7 @@ import { Book } from "@/@types/book";
 
 export const booksRouter = router({
   // without pagingation
-  getBooksContent: protectedProcedure
+  fetchBooksContent: protectedProcedure
     .input(z.object({
         query: z.string()
     }))

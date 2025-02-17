@@ -6,6 +6,7 @@ import { usersRouter } from "./users";
 import { topBannerRouters } from "./top-banner";
 import { booksRouter } from "./books";
 import { podcastsRouter } from "./podcasts";
+import { collectionsRouter } from "./collections";
 
 export const appRouter = router({
   users: usersRouter,
@@ -15,6 +16,7 @@ export const appRouter = router({
   topBanner: topBannerRouters,
   books: booksRouter,
   podcasts: podcastsRouter,
+  collections: collectionsRouter
 });
 
 export type AppRouter = typeof appRouter;

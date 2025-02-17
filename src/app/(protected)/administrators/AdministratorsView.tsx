@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import AdministratorHeader from "./components/AdministratorHeader";
-import AdministratorHeaderTools from "./components/AdministratorHeaderTools";
+import AdministratorHeader from "./_components/AdministratorHeader";
+import AdministratorHeaderTools from "./_components/AdministratorHeaderTools";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import AdministratorForm from "./AdministratorForm";
 import { NewAdminType } from "./StaticTypes";
