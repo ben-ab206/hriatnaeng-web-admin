@@ -8,27 +8,33 @@ export const routes: NavItem[] = [
     module: "dashboard",
   },
   {
+    title: "Books",
+    url: "/books",
+    icon: "settings",
+    module: "books",
+  },
+  {
     title: "Settings",
     url: "/settings",
     icon: "settings",
-    module: "settings"
+    module: "settings",
   },
   {
     title: "Administrators",
     url: "/administrators",
     icon: "settings",
-    module: "administrators"
+    module: "administrators",
   },
   {
     title: "Top Banners",
     url: "/top-banners",
     icon: "settings",
-    module: "top-banners"
+    module: "top-banners",
   },
   {
     title: "Collections",
     url: "/collections",
     icon: "settings",
-    module: "collections"
-  }
+    module: "collections",
+  },
 ];

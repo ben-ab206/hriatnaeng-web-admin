@@ -6,3 +6,6 @@ export const TABLE_BOOKS = "books";
 export const TABLE_PODCASTS = "podcasts";
 export const TABLE_COLLECTIONS = "collections";
 export const TABLE_CONTENT_COLLECTIONS_RELATION = "content_collections_relation";
+export const TABLE_PEOPLE = "people";
+export const TABLE_PEOPLE_ROLES = "people_roles";
+export const TABLE_CONTENT_PEOPLE_RELATION = "content_people_relation";
