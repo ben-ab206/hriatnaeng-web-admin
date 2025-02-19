@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/select";
 import StickyFooter from "@/components/shared/StickyFotter";
 import { Button } from "@/components/ui/button";
+import AudioPlayer from "./_components/AudioPlayer";
 
 interface BookFormProps {
   isSubmitting?: boolean;
@@ -205,6 +206,8 @@ const BookForm = ({
                       </FormItem>
                     )}
                   />
+
+                  <AudioPlayer />
                 </div>
                 <div></div>
               </div>
