@@ -61,6 +61,7 @@ const BookForm = ({
 
   const handleSubmit = infromationForm.handleSubmit((data) => {
     console.log(data);
+    onSubmit();
   });
 
   return (
