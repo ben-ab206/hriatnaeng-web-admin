@@ -4,6 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "../../../components/ui/data-table";
 import { PagingData } from "@/@types/paging-data";
 import { formatRole } from "@/lib/utils";
+import Image from "next/image";
 
 
 interface AdministratorTableProps {
@@ -35,10 +36,10 @@ const AdministratorTable = ({
     return (
       <div className="flex flex-row space-x-3 items-center">
         <button onClick={onEdit}>
-          <img src={'/icons/edit-icon.png'} className="h-4 w-4" />
+          <Image src={'/icons/edit-icon.png'} width={4} height={4} alt="edit" />
         </button>
         <button onClick={onDelete}>
-          <img src={'/icons/remove-icon.png'} className="h-4 w-4" />
+          <Image src={'/icons/remove-icon.png'} width={4} height={4} alt="remove" />
         </button>
       </div>
     );

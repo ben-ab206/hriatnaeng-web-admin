@@ -4,6 +4,7 @@ import { Book } from "@/@types/book";
 import { PagingData } from "@/@types/paging-data";
 import { DataTable } from "@/components/ui/data-table";
 import { ColumnDef } from "@tanstack/react-table";
+import Image from "next/image";
 import { useMemo } from "react";
 
 interface BooksTableProps {
@@ -43,10 +44,12 @@ const BooksTable = ({
             <div className="flex items-center">
               {book.cover_path ? (
                 <div className="w-10 h-[60px] mr-2">
-                  <img
+                  <Image
                     src={book.cover_path}
                     className="object-cover w-full h-full rounded-md"
                     alt="Movie Poster"
+                    width={20}
+                    height={20}
                   />
                 </div>
               ) : (

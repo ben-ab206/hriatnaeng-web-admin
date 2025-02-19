@@ -19,7 +19,7 @@ interface DataTablePaginationProps<TData> {
 }
 
 export function DataTablePagination<TData>({
-  table,
+  // table,
   pagingData,
   onPageChange,
   onSelectChange,
