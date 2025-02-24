@@ -43,8 +43,8 @@ const SignIn = () => {
         queryKey: [["auth", "getSession"]],
       });
 
-      router.refresh();
-      router.push("/");
+      // router.refresh();
+      router.replace("/"); 
       toast({
         title: "Success",
         description: "Successfully signed in",
