@@ -1,6 +1,6 @@
 import { Providers } from "./providers";
 import "./globals.css";
-import { AuthGuard } from "@/components/auth-guard";
+// import { AuthGuard } from "@/components/auth-guard";
 import { ClientLayout } from "@/components/layout/client-layout";
 import { Toaster } from "@/components/ui/toaster"
 
@@ -13,9 +13,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Providers>
-          <AuthGuard>
+          {/* <AuthGuard> */}
             <ClientLayout>{children}</ClientLayout>
-          </AuthGuard>
+          {/* </AuthGuard> */}
         </Providers>
         <Toaster />
       </body>

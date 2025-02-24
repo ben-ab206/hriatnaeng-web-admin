@@ -39,8 +39,6 @@ const SignIn = () => {
 
   const { mutateAsync: signIn } = api.auth.signIn.useMutation({
     onSuccess: async () => {
-      // Invalidate the session query using the query client
-      console.info("_------------------------------------------------_")
       await queryClient.invalidateQueries({
         queryKey: [["auth", "getSession"]],
       });

@@ -21,7 +21,23 @@ export interface InformationFormModel {
   subtitle: string;
   price_model: PriceModel;
   subtitle_mizo?: string;
+  audio_content_model?: AudioContentModel[];
 }
+
+export interface AudioContentModel {
+  id?: number;
+  label: string;
+  start_time: Date;
+  title: string;
+  content: string;
+}
+
+const audioContentSchema = z.object({
+  label: z.string().min(1, { message: "label is required"}),
+  title: z.string().min(1, { message: "title is required"}),
+  start_time: z.date(),
+  content: z.string().min(1, { message: "content is required"})
+});
 
 const bookFormSchema = z.object({
   title: z.string().min(1, { message: "Book title is required" }),
@@ -29,4 +45,4 @@ const bookFormSchema = z.object({
   price_model: z.string().min(1, { message: "Price model is required" }),
 });
 
-export { bookFormSchema };
+export { bookFormSchema, audioContentSchema };

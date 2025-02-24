@@ -100,7 +100,7 @@ const CollectionsView = () => {
         isLoading={isLoading || isFetching}
         onChangePublished={onChangePublished}
         onDelete={onDelete}
-        onEdit={(v) => navigate.push(`${v.id}/${v.type}`)}
+        onEdit={(v) => navigate.push(`collections/${v.id}/${v.type}`)}
         onPageChange={onPageChange}
         onSelectChange={onSelectChange}
       />

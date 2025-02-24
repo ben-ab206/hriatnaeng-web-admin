@@ -100,7 +100,7 @@ const AdministratorsView = () => {
         loading={isLoading}
         onPageChange={onPageChange}
         onSelectChange={onSelectChange}
-        onEdit={(v) => setToEditItem(v)}
+        onEdit={(v) => { setToEditItem(v); setShowDialog(true);}}
         onDelete={(v) => console.info(v)}
       />
       <Dialog open={showDialog === true} onOpenChange={onDialogClose}>

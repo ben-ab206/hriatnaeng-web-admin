@@ -10,7 +10,7 @@ export const routes: NavItem[] = [
   {
     title: "Books",
     url: "/books",
-    icon: "settings",
+    icon: "books",
     module: "books",
   },
   {
@@ -23,12 +23,18 @@ export const routes: NavItem[] = [
     title: "Administrators",
     url: "/administrators",
     icon: "settings",
-    module: "administrators",
+    module: "administrators"
+  },
+  {
+    title: "Categories",
+    url: "/categories",
+    icon: "categories",
+    module: "categories",
   },
   {
     title: "Top Banners",
     url: "/top-banners",
-    icon: "settings",
+    icon: "topbanners",
     module: "top-banners",
   },
   {
@@ -37,4 +43,10 @@ export const routes: NavItem[] = [
     icon: "settings",
     module: "collections",
   },
+  {
+    title: "Sections",
+    url: "/sections",
+    icon: "sections",
+    module: "sections"
+  }
 ];

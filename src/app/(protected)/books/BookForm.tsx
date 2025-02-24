@@ -5,6 +5,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { bookFormSchema, InformationFormModel } from "./StaticTypes";
 import { PriceModel } from "@/@types/price-model";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ColorPicker from "react-pick-color";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Form,
   FormControl,
@@ -23,7 +30,9 @@ import {
 } from "@/components/ui/select";
 import StickyFooter from "@/components/shared/StickyFotter";
 import { Button } from "@/components/ui/button";
-import AudioPlayer from "./_components/AudioPlayer";
+import Image from "next/image";
+import AddContentButton from "./_components/AddContentButton";
+// import AudioPlayer from "./_components/AudioPlayer";
 
 interface BookFormProps {
   isSubmitting?: boolean;
@@ -66,17 +75,15 @@ const BookForm = ({
 
   return (
     <div>
-      <Tabs defaultValue="information" className="w-[400px]">
+      <Tabs defaultValue="information" className="">
         <TabsList>
           <TabsTrigger value="information">Information</TabsTrigger>
           <TabsTrigger value="content">Content</TabsTrigger>
         </TabsList>
-        <TabsContent value="information">
+        <TabsContent value="information" className="w-full">
           <Form {...infromationForm}>
-            <form
-              onSubmit={handleSubmit}
-            >
-              <div className="flex flex-row items-center w-full">
+            <form onSubmit={handleSubmit}>
+              <div className="flex flex-row items-center w-full space-x-5">
                 <div className="space-y-3 flex-1">
                   <FormField
                     control={infromationForm.control}
@@ -208,14 +215,82 @@ const BookForm = ({
                     )}
                   />
 
-                  <AudioPlayer />
+                  {/* <AudioPlayer /> */}
                 </div>
-                <div></div>
+                <div className="flex-1">
+                  <FormField
+                    control={infromationForm.control}
+                    name="background_color"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Background Color</FormLabel>
+                        <div className="flex flex-row items-center space-x-3">
+                          <FormControl>
+                            <Input
+                              {...field}
+                              type="text"
+                              placeholder="#FFFFFF"
+                              className="font-mono"
+                            />
+                          </FormControl>
+                          <Popover>
+                            <PopoverTrigger>
+                              <div>
+                                <Image
+                                  src="/icons/color-picker-icon.png"
+                                  width={30}
+                                  height={30}
+                                  alt="color-picker-icon"
+                                />
+                              </div>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-80">
+                              <ColorPicker
+                                color={field.value || "#FFFFFF"}
+                                onChange={(color) => field.onChange(color.hex)}
+                              />
+                            </PopoverContent>
+                          </Popover>
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={infromationForm.control}
+                    name="about"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>About ( English )</FormLabel>
+                        <FormControl>
+                          <Textarea {...field} rows={10} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={infromationForm.control}
+                    name="about_mizo"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>About ( Mizo )</FormLabel>
+                        <FormControl>
+                          <Textarea {...field} rows={10} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
             </form>
           </Form>
         </TabsContent>
-        <TabsContent value="content"></TabsContent>
+        <TabsContent value="content">
+          <AddContentButton onActionNewContent={()=>{}} />
+        </TabsContent>
       </Tabs>
       <StickyFooter
         className="px-8 flex items-center justify-end py-4"
@@ -235,6 +310,7 @@ const BookForm = ({
           </Button>
         </div>
       </StickyFooter>
+      
     </div>
   );
 };
