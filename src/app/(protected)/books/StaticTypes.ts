@@ -2,6 +2,7 @@ import { ContentType } from "@/@types/content-type";
 import { PriceModel } from "@/@types/price-model";
 import { z } from "zod";
 import { Option } from "@/@types/option";
+import { ImageFile } from "@/@types/image-file";
 
 export interface InformationFormModel {
   id?: number;
@@ -22,6 +23,7 @@ export interface InformationFormModel {
   price_model: PriceModel;
   subtitle_mizo?: string;
   audio_content_model?: AudioContentModel[];
+  cover_image?: ImageFile[]
 }
 
 export interface AudioContentModel {

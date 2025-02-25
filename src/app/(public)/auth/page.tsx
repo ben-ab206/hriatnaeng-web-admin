@@ -21,7 +21,7 @@ import { useState } from "react";
 import { api } from "@/trpc/client";
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
-import { toast } from "@/hooks/use-toast";
+import { showErrorToast, showSuccessToast } from "@/lib/utils";
 
 const SignIn = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -43,19 +43,16 @@ const SignIn = () => {
         queryKey: [["auth", "getSession"]],
       });
 
-      // router.refresh();
-      router.replace("/"); 
-      toast({
-        title: "Success",
-        description: "Successfully signed in",
-      });
+      router.refresh();
+
+      setTimeout(() => {
+        router.replace("/");
+      }, 100);
+
+      showSuccessToast("Successful sign in.");
     },
     onError: (error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+      showErrorToast(error.message);
     },
   });
 

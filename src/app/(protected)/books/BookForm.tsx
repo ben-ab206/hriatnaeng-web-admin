@@ -32,7 +32,7 @@ import StickyFooter from "@/components/shared/StickyFotter";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import AddContentButton from "./_components/AddContentButton";
-// import AudioPlayer from "./_components/AudioPlayer";
+import ImageUploader from "./_components/ImageUploader";
 
 interface BookFormProps {
   isSubmitting?: boolean;
@@ -65,6 +65,7 @@ const BookForm = ({
       release_date: undefined,
       subtitle_mizo: "",
       title_mizo: "",
+      cover_image: [],
     },
   });
 
@@ -75,7 +76,7 @@ const BookForm = ({
 
   return (
     <div>
-      <Tabs defaultValue="information" className="">
+      <Tabs defaultValue="information" className="space-y-5">
         <TabsList>
           <TabsTrigger value="information">Information</TabsTrigger>
           <TabsTrigger value="content">Content</TabsTrigger>
@@ -83,7 +84,7 @@ const BookForm = ({
         <TabsContent value="information" className="w-full">
           <Form {...infromationForm}>
             <form onSubmit={handleSubmit}>
-              <div className="flex flex-row items-center w-full space-x-5">
+              <div className="flex flex-row w-full space-x-5">
                 <div className="space-y-3 flex-1">
                   <FormField
                     control={infromationForm.control}
@@ -217,7 +218,28 @@ const BookForm = ({
 
                   {/* <AudioPlayer /> */}
                 </div>
-                <div className="flex-1">
+                <div className="flex-1 space-y-3">
+                  <FormField
+                    control={infromationForm.control}
+                    name="cover_image"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Cover Image</FormLabel>
+                        <div className="flex flex-row items-center space-x-3">
+                          <FormControl>
+                            <ImageUploader
+                              images={field.value}
+                              onChange={field.onChange}
+                              containerClassName="h-[250px] w-[180px]"
+                              ratio="2:3"
+                            />
+                          </FormControl>
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
                   <FormField
                     control={infromationForm.control}
                     name="background_color"
@@ -289,7 +311,7 @@ const BookForm = ({
           </Form>
         </TabsContent>
         <TabsContent value="content">
-          <AddContentButton onActionNewContent={()=>{}} />
+          <AddContentButton onActionNewContent={() => {}} />
         </TabsContent>
       </Tabs>
       <StickyFooter
@@ -310,7 +332,6 @@ const BookForm = ({
           </Button>
         </div>
       </StickyFooter>
-      
     </div>
   );
 };
