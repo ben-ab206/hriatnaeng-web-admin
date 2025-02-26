@@ -39,7 +39,6 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
         }
       }
 
-      // Ensure we only redirect when session is fully loaded
       if (!loading) {
         if (session && user) {
           if (pathname.startsWith("/auth")) {
@@ -52,13 +51,12 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
         }
       }
 
-      setIsProcessing(false); // Allow rendering after auth check
+      setIsProcessing(false);
     };
 
     handleAuth();
   }, [session, user, pathname, loading]);
 
-  // Prevent rendering until session check is done
   if (isProcessing || loading) return null;
 
   return <>{children}</>;

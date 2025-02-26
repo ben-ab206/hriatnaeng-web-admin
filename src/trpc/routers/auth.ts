@@ -78,11 +78,6 @@ export const authRouter = router({
           });
         }
 
-        await ctx.supabase.auth.setSession({
-          access_token: authData.session!.access_token,
-          refresh_token: authData.session!.refresh_token,
-        });
-
         const { data: userData, error: userError } = await ctx.supabase
           .from("users")
           .select("*")
@@ -95,6 +90,18 @@ export const authRouter = router({
             message: "User profile not found",
           });
         }
+
+        if (userData.is_active === false) {
+          throw new TRPCError({
+            code: "UNAUTHORIZED",
+            message: "Account is inactive. Please contact an administrator.",
+          });
+        }
+
+        await ctx.supabase.auth.setSession({
+          access_token: authData.session!.access_token,
+          refresh_token: authData.session!.refresh_token,
+        });
 
         return {
           user: userData,
@@ -206,6 +213,7 @@ export const authRouter = router({
         .from("users")
         .select("*")
         .eq("user_id", session.user.id)
+        .eq("is_active", true)
         .single();
 
       if (userError) {

@@ -22,9 +22,11 @@ import { api } from "@/trpc/client";
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import { showErrorToast, showSuccessToast } from "@/lib/utils";
+import Image from "next/image";
 
 const SignIn = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -37,8 +39,16 @@ const SignIn = () => {
     },
   });
 
-  const { mutateAsync: signIn } = api.auth.signIn.useMutation({
-    onSuccess: async () => {
+  const { mutateAsync: signIn } = api.auth.signIn.useMutation();
+
+  const onSubmit = async (values: z.infer<typeof signInSchema>) => {
+    setIsSubmitting(true);
+    try {
+      await signIn({
+        email: values.email,
+        password: values.password,
+      });
+
       await queryClient.invalidateQueries({
         queryKey: [["auth", "getSession"]],
       });
@@ -50,20 +60,20 @@ const SignIn = () => {
       }, 100);
 
       showSuccessToast("Successful sign in.");
-    },
-    onError: (error) => {
-      showErrorToast(error.message);
-    },
-  });
-
-  const onSubmit = async (values: z.infer<typeof signInSchema>) => {
-    try {
-      await signIn({
-        email: values.email,
-        password: values.password,
-      });
-    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       console.error("Sign in error:", error);
+
+      // Extract error message from TRPC error
+      const errorMessage =
+        error.message ||
+        error.data?.zodError?.fieldErrors?.email?.[0] ||
+        error.data?.zodError?.fieldErrors?.password?.[0] ||
+        "Sign in failed. Please try again.";
+
+      showErrorToast(errorMessage);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -73,8 +83,16 @@ const SignIn = () => {
 
   return (
     <div className="min-h-screen w-full items-center flex justify-center flex-col">
-      <Card>
+      <Card className="bg-white shadow-lg">
         <CardContent className="p-4 px-6">
+          <div className="w-full flex flex-row items-center justify-center">
+            <Image
+              src="/hriatna-eng-logo.png"
+              alt="Logo"
+              width={100}
+              height={100}
+            />
+          </div>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
               <FormField
@@ -127,13 +145,18 @@ const SignIn = () => {
               <div className="flex flex-row justify-end w-full">
                 <Link
                   href={"/"}
+                  hidden
                   className="text-sm underline hover:text-primary"
                 >
                   Forgot password?
                 </Link>
               </div>
-              <Button type="submit" className="w-full text-white">
-                Submit
+              <Button
+                loading={isSubmitting}
+                type="submit"
+                className="w-full text-white"
+              >
+                Login
               </Button>
             </form>
           </Form>

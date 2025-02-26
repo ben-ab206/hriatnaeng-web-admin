@@ -30,12 +30,14 @@ interface AdministratorFormProps {
   loading?: boolean;
   initialData?: NewAdminType;
   onClickSave: (values: NewAdminType) => void;
+  onClose: () => void;
 }
 
 const AdministratorForm = ({
   loading = false,
   initialData,
   onClickSave,
+  onClose
 }: AdministratorFormProps) => {
   const form = useForm<z.infer<typeof newAdminSchema>>({
     resolver: zodResolver(newAdminSchema),
@@ -119,9 +121,18 @@ const AdministratorForm = ({
             )}
           />
 
-          <Button loading={loading} type="submit" className="w-full text-white">
-            Submit
-          </Button>
+          <div className="w-full flex flex-row space-x-2 justify-end">
+            <Button type="button" className="bg-gray-600" onClick={onClose}>
+              Cancel
+            </Button>
+            <Button
+              loading={loading}
+              type="submit"
+              className="text-white"
+            >
+              Submit
+            </Button>
+          </div>
         </form>
       </Form>
     </div>

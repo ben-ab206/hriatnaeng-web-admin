@@ -115,7 +115,7 @@ const DefinePasswordView = () => {
 
   return (
     <div className="min-h-screen w-full items-center flex justify-center flex-col">
-      <Card>
+      <Card className="bg-white shadow-lg">
         <CardContent className="p-4 px-6">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">

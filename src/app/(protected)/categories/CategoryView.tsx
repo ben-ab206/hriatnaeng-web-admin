@@ -12,7 +12,7 @@
 // // import { showErrorToast, showSuccessToast } from "@/lib/utils";
 // import { toast } from "@/hooks/use-toast";
 // import CategoryDeleteConfirmation from "./_components/CategoryDeleteConfirmation";
-// import { generateTimestamp } from "@/serives/common";
+// import { generateTimestamp,convertFileToBase64 } from "@/serives/common";
 
 // const CategoryView = () => {
 //     const [showDialog, setShowDialog] = useState(false);
@@ -128,15 +128,6 @@
 //         refetch(); // Re-fetch data when the page size changes
 //       }, [pagingData.size, refetch]);
 
-    
-//     const convertFileToBase64 = (file: File): Promise<string> => {
-//         return new Promise((resolve, reject) => {
-//           const reader = new FileReader();
-//           reader.onload = () => resolve(reader.result as string);
-//           reader.onerror = reject;
-//           reader.readAsDataURL(file);
-//         });
-//     };
 //     const handleSave = async (values: NewCategoryType) => {
 //         console.log(values)
 //         let imageUrl: string | undefined;

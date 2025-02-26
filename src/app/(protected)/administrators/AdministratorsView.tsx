@@ -11,11 +11,13 @@ import { api } from "@/trpc/client";
 import AdministratorTable from "./AdministratorTable";
 import { PagingData } from "@/@types/paging-data";
 import { showErrorToast, showSuccessToast } from "@/lib/utils";
+import { ConfirmDialog } from "./_components/ConfirmDialog";
 
 const AdministratorsView = () => {
   const [showDialog, setShowDialog] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [toEditItem, setToEditItem] = useState<User | undefined>();
+  const [toRemoveItem, setToRemoveItem] = useState<User | undefined>();
   const [pagingData, setPagingData] = useState<PagingData>({
     total: 0,
     page: 1,
@@ -44,47 +46,74 @@ const AdministratorsView = () => {
       },
     });
 
+  const { mutateAsync: updateAdminInfo, isPending: isUpdating } =
+    api.users.updateUserInfo.useMutation({
+      onSuccess: async () => {
+        refetch();
+        onDialogClose();
+      },
+      onError: (error) => {
+        showErrorToast(error.message);
+      },
+    });
+
   const onDialogClose = () => {
     setShowDialog(false);
+    setToRemoveItem(undefined);
   };
 
   const onPageChange = (v: number) => {
     setPagingData((prev) => ({
-        ...prev,
-        page: v,
-    }))
-  }
+      ...prev,
+      page: v,
+    }));
+  };
 
   const onSelectChange = (v: number) => {
-    console.log("Changing page size to:", v);
     setPagingData((prev) => ({
-        ...prev,
-        size: v,
-        page: 1,
-    }))
-    
-}
+      ...prev,
+      size: v,
+      page: 1,
+    }));
+  };
 
   const handleSave = async (values: NewAdminType) => {
-    await createAdminUser({
-      email: values.email,
-      name: values.name,
-      role_id: parseInt(values.role_id),
-    });
+    if (values.id) {
+      await updateAdminInfo({
+        id: values.id,
+        role_id: +values.role_id,
+      });
+      showSuccessToast("Successfully updated user role");
+    } else {
+      await createAdminUser({
+        email: values.email,
+        name: values.name,
+        role_id: parseInt(values.role_id),
+      });
+      showSuccessToast("Successfully invited user");
+    }
+  };
+
+  const handleOnDelete = async () => {
+    if (toRemoveItem && toRemoveItem.id)
+      await updateAdminInfo({
+        id: toRemoveItem.id,
+        is_active: false,
+      });
+    showSuccessToast("Successfully deactivated user");
   };
 
   useEffect(() => {
     if (admin_users?.total !== undefined) {
       setPagingData((prev) => ({
         ...prev,
-        total: admin_users.total ,
+        total: admin_users.total,
       }));
     }
   }, [admin_users?.total]);
 
   useEffect(() => {
-    refetch(); // Re-fetch data when the page size changes
-    console.log("Refetching data with page size:", pagingData.size);
+    refetch();
   }, [pagingData.size, refetch]);
 
   return (
@@ -100,8 +129,11 @@ const AdministratorsView = () => {
         loading={isLoading}
         onPageChange={onPageChange}
         onSelectChange={onSelectChange}
-        onEdit={(v) => { setToEditItem(v); setShowDialog(true);}}
-        onDelete={(v) => console.info(v)}
+        onEdit={(v) => {
+          setToEditItem(v);
+          setShowDialog(true);
+        }}
+        onDelete={(v) => setToRemoveItem(v)}
       />
       <Dialog open={showDialog === true} onOpenChange={onDialogClose}>
         <DialogContent>
@@ -109,7 +141,7 @@ const AdministratorsView = () => {
             {toEditItem ? `Edit ${toEditItem.name}` : "New Administrator"}
           </DialogTitle>
           <AdministratorForm
-            loading={isPending}
+            loading={isPending || isUpdating}
             initialData={
               toEditItem
                 ? ({
@@ -121,9 +153,17 @@ const AdministratorsView = () => {
                 : undefined
             }
             onClickSave={handleSave}
+            onClose={onDialogClose}
           />
         </DialogContent>
       </Dialog>
+
+      <ConfirmDialog
+        isOpen={toRemoveItem !== undefined}
+        onClick={handleOnDelete}
+        onClose={onDialogClose}
+        loading={isUpdating}
+      />
     </div>
   );
 };

@@ -1,11 +1,11 @@
 import { User } from "@/@types/user";
 import { ColumnDef } from "@tanstack/react-table";
-// import { DeleteIcon, EditIcon } from "lucide-react";
 import { DataTable } from "../../../components/ui/data-table";
 import { PagingData } from "@/@types/paging-data";
 import { formatRole } from "@/lib/utils";
-import Image from "next/image";
-
+import { format } from "date-fns";
+import { Edit2Icon, Trash2Icon } from "lucide-react";
+import classNames from "classnames";
 
 interface AdministratorTableProps {
   pagingData: PagingData;
@@ -24,7 +24,7 @@ const AdministratorTable = ({
   loading = false,
   data,
   onEdit,
-  onDelete
+  onDelete,
 }: AdministratorTableProps) => {
   const ActionColumn = ({
     onEdit,
@@ -35,17 +35,18 @@ const AdministratorTable = ({
   }) => {
     return (
       <div className="flex flex-row space-x-3 items-center">
-        <button onClick={onEdit}>
-          <Image src={'/icons/edit-icon.png'} width={4} height={4} alt="edit" />
+        <button onClick={onEdit} className="hover:bg-gray-200 rounded-full p-1">
+          <Edit2Icon className="h-4 w-4 text-gray-800" />
         </button>
-        <button onClick={onDelete}>
-          <Image src={'/icons/remove-icon.png'} width={4} height={4} alt="remove" />
+        <button
+          onClick={onDelete}
+          className="hover:bg-gray-200 rounded-full p-1"
+        >
+          <Trash2Icon className="h-4 w-4 text-gray-800" />
         </button>
       </div>
     );
   };
-
-  console.info(loading);
 
   const columns: ColumnDef<User>[] = [
     {
@@ -57,7 +58,10 @@ const AdministratorTable = ({
       header: "Name",
       cell: ({ row }) => row.original.name,
     },
-    { header: "Joined Date", cell: ({ row }) => row.original.created_at },
+    {
+      header: "Joined Date",
+      cell: ({ row }) => format(row.original.created_at, "dd-MM-yyyy hh:mm a"),
+    },
     {
       header: "Email",
       cell: ({ row }) => row.original.email ?? "-",
@@ -67,8 +71,26 @@ const AdministratorTable = ({
       cell: ({ row }) => formatRole(row.original.roles?.name ?? ""),
     },
     {
+      header: "Status",
+      cell: ({ row }) => (
+        <span
+          className={classNames({
+            "text-red-500": !row.original.is_active,
+            "text-green-500": row.original.is_active,
+          })}
+        >
+          {row.original.is_active ? "Active" : "Deactivated"}
+        </span>
+      ),
+    },
+    {
       header: "Actions",
-      cell: ({ row }) => <ActionColumn onEdit={() => onEdit(row.original)} onDelete={() => onDelete(row.original)} />,
+      cell: ({ row }) => (
+        <ActionColumn
+          onEdit={() => onEdit(row.original)}
+          onDelete={() => onDelete(row.original)}
+        />
+      ),
     },
   ];
 

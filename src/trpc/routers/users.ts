@@ -140,4 +140,23 @@ export const usersRouter = router({
       if (error) throw error;
       return data;
     }),
+  updateUserInfo: protectedProcedure
+    .input(
+      z.object({
+        id: z.number().min(1, { message: "id is required" }),
+        role_id: z.number().optional(),
+        is_active: z.boolean().optional()
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { data, error } = await ctx.supabase
+        .from(TABLE_USERS)
+        .update({ role_id: input.role_id, is_active: input.is_active })
+        .eq("id", input.id)
+        .select()
+        .single();
+
+      if (error) throw error;
+      return data;
+    })
 });

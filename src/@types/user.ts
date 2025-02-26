@@ -8,4 +8,5 @@ export type User = {
     created_at: string
     updated_at?: string
     email?: string
+    is_active: boolean
 }

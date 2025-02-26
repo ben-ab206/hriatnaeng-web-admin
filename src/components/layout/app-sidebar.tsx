@@ -4,12 +4,17 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import navigationIcon from "@/configs/navigation-icon.config";
-import { routes } from "@/configs/routes.config";
+import {
+  contentManagementRoutes,
+  userManagementRoutes,
+} from "@/configs/routes.config";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 export function AppSidebar() {
@@ -24,12 +29,70 @@ export function AppSidebar() {
 
   return (
     <Sidebar>
+      <SidebarHeader>
+        <div className="flex flex-row items-center justify-center">
+          <Image
+            src="/hriatna-eng-logo.png"
+            width={80}
+            height={80}
+            alt="LOGO"
+          />
+        </div>
+      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {routes.map((item) => (
+              {[
+                {
+                  title: "Dashboard",
+                  url: "/",
+                  icon: "dashboard",
+                  module: "dashboard",
+                },
+              ].map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={isRouteActive(item.url)}
+                    tooltip={item.title}
+                  >
+                    <a href={item.url}>
+                      {navigationIcon[item.icon]}
+                      <span>{item.title}</span>
+                    </a>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>Content Management</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {contentManagementRoutes.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={isRouteActive(item.url)}
+                    tooltip={item.title}
+                  >
+                    <a href={item.url}>
+                      {navigationIcon[item.icon]}
+                      <span>{item.title}</span>
+                    </a>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>User Management</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {userManagementRoutes.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild

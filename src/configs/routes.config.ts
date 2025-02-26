@@ -1,17 +1,11 @@
 import { NavItem } from "@/@types/nav-item";
 
-export const routes: NavItem[] = [
+const userManagementRoutes: NavItem[] = [
   {
-    title: "Dashboard",
-    url: "/",
-    icon: "dashboard",
-    module: "dashboard",
-  },
-  {
-    title: "Books",
-    url: "/books",
-    icon: "books",
-    module: "books",
+    title: "Administrators",
+    url: "/administrators",
+    icon: "settings",
+    module: "administrators",
   },
   {
     title: "Settings",
@@ -19,11 +13,14 @@ export const routes: NavItem[] = [
     icon: "settings",
     module: "settings",
   },
+];
+
+const contentManagementRoutes: NavItem[] = [
   {
-    title: "Administrators",
-    url: "/administrators",
-    icon: "settings",
-    module: "administrators"
+    title: "Books",
+    url: "/books",
+    icon: "books",
+    module: "books",
   },
   {
     title: "Categories",
@@ -47,6 +44,8 @@ export const routes: NavItem[] = [
     title: "Sections",
     url: "/sections",
     icon: "sections",
-    module: "sections"
-  }
+    module: "sections",
+  },
 ];
+
+export { contentManagementRoutes, userManagementRoutes };

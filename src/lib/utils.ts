@@ -18,6 +18,7 @@ export const showSuccessToast = (message: string) => {
   toast.success(message, {
     duration: 3000,
     dismissible: true,
+    position: "top-center"
   });
 };
 
@@ -25,6 +26,7 @@ export const showErrorToast = (message: string) => {
   toast.error(message, {
     duration: 5000,
     dismissible: true,
+    position: "top-center"
   });
 };
 
@@ -32,5 +34,6 @@ export const showInfoToast = (message: string) => {
   toast(message, {
     duration: 3000,
     dismissible: true,
+    position: "top-center"
   });
 };
