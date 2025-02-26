@@ -138,6 +138,18 @@ export const usersRouter = router({
       );
 
       if (error) throw error;
+
+      const { data: user, error: userError } = await ctx.supabase
+        .from(TABLE_USERS)
+        .update({ is_active: true })
+        .eq("email", input.email)
+        .select()
+        .single();
+
+      if (userError) throw new Error("Fail to update user information");
+
+      console.info(user);
+
       return data;
     }),
   updateUserInfo: protectedProcedure
@@ -145,7 +157,7 @@ export const usersRouter = router({
       z.object({
         id: z.number().min(1, { message: "id is required" }),
         role_id: z.number().optional(),
-        is_active: z.boolean().optional()
+        is_active: z.boolean().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -158,5 +170,5 @@ export const usersRouter = router({
 
       if (error) throw error;
       return data;
-    })
+    }),
 });

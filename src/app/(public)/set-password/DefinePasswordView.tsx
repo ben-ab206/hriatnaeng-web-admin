@@ -19,7 +19,7 @@ import { setPasswordSchema } from "@/trpc/schema/auth";
 import { useEffect, useState } from "react";
 import { api } from "@/trpc/client";
 import { usePathname, useRouter } from "next/navigation";
-import { toast } from "@/hooks/use-toast";
+import { showErrorToast, showSuccessToast } from "@/lib/utils";
 
 const DefinePasswordView = () => {
   const router = useRouter();
@@ -55,17 +55,10 @@ const DefinePasswordView = () => {
   const { mutateAsync: updatePassword } = api.users.definePassword.useMutation({
     onSuccess: async () => {
       router.push("/");
-      toast({
-        title: "Success",
-        description: "Successfully set password",
-      });
+      showSuccessToast("Successfully set password")
     },
     onError: (error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+      showErrorToast(error.message);
     },
   });
 
@@ -78,11 +71,7 @@ const DefinePasswordView = () => {
         password: values.password,
       });
     } else {
-      toast({
-        title: "Error",
-        description: "Can't get user session data. please log in.",
-        variant: "destructive",
-      });
+      showErrorToast("Can't get user session data. please log in.")
     }
   };
 
