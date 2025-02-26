@@ -7,13 +7,13 @@ import { api } from "@/trpc/client";
 export function AuthGuard({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  const { session, user, refetch, loading } = useSession(); // Ensure isLoading is available
+  const { session, user, refetch, loading } = useSession();
   const { mutateAsync: setSession } = api.auth.setSessionByToken.useMutation();
-  const [isProcessing, setIsProcessing] = useState(true); // Prevent unnecessary UI flickers
+  const [isProcessing, setIsProcessing] = useState(true);
 
   useEffect(() => {
     const handleAuth = async () => {
-      setIsProcessing(true); // Prevent unnecessary renders
+      setIsProcessing(true);
 
       // Extract access & refresh token from the URL hash
       const hash = window.location.hash.substring(1);
@@ -41,12 +41,30 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
 
       if (!loading) {
         if (session && user) {
-          if (pathname.startsWith("/auth")) {
-            router.replace("/");
+          // Check if user is inactive
+          if (user.is_active === false) {
+            // Allow access to the set-password route even if inactive
+            if (pathname === "/set-password") {
+              // User can access set-password route even if inactive
+              setIsProcessing(false);
+              return;
+            } else if (!pathname.startsWith("/auth")) {
+              // Redirect inactive users to auth route for all other routes
+              router.replace("/auth");
+              return;
+            }
+          } else {
+            // User is active, redirect from auth routes to home
+            if (pathname.startsWith("/auth")) {
+              router.replace("/");
+              return;
+            }
           }
         } else {
+          // No session or user, redirect to auth
           if (!pathname.startsWith("/auth")) {
             router.replace("/auth");
+            return;
           }
         }
       }
@@ -55,7 +73,7 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
     };
 
     handleAuth();
-  }, [session, user, pathname, loading]);
+  }, [session, user, pathname, loading, refetch, router, setSession]);
 
   if (isProcessing || loading) return null;
 

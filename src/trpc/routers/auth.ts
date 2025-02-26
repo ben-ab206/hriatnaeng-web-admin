@@ -1,4 +1,4 @@
-import { User } from "@supabase/supabase-js";
+import { User } from "@/@types/user";
 import {
   resetPasswordSchema,
   signInSchema,
@@ -213,7 +213,6 @@ export const authRouter = router({
         .from("users")
         .select("*")
         .eq("user_id", session.user.id)
-        .eq("is_active", true)
         .single();
 
       if (userError) {
