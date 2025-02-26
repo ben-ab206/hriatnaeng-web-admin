@@ -9,10 +9,10 @@ export async function updateSession(request: NextRequest) {
   const supabase = await createClient();
 
   const {
-    data: { session },
-  } = await supabase.auth.getSession();
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  if (!session && !request.nextUrl.pathname.startsWith("/auth")) {
+  if (!user && !request.nextUrl.pathname.startsWith("/auth")) {
     const url = request.nextUrl.clone();
     url.pathname = "/auth";
     return NextResponse.redirect(url);
