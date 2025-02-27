@@ -4,7 +4,7 @@ import { Switch } from "@/components/ui/switch";
 import { Collection } from "@/@types/collection";
 import { PagingData } from "@/@types/paging-data";
 import { ColumnDef } from "@tanstack/react-table";
-import Image from "next/image";
+import { Edit2Icon, Trash2Icon } from "lucide-react";
 
 interface CollectionTableProps {
   data: Collection[];
@@ -26,23 +26,20 @@ const ActionColumn = ({
   onDelete: () => void;
 }) => {
   return (
-    <div className="flex justify-start space-x-4">
-      <button onClick={onEdit}>
-        <Image alt="edit" src={"/icons/edit-icon.png"} width={20} height={20} />
+    <div className="flex flex-row space-x-3 items-center">
+      <button onClick={onEdit} className="hover:bg-gray-200 rounded-full p-1">
+        <Edit2Icon className="h-4 w-4 text-gray-800" />
       </button>
-      <span
-        className="cursor-pointer px-2 hover:text-red-500"
-        onClick={onDelete}
-      >
-        <Image alt="delete" src={"/icons/delete-icon.png"}  width={20} height={20} />
-      </span>
+      <button onClick={onDelete} className="hover:bg-gray-200 rounded-full p-1">
+        <Trash2Icon className="h-4 w-4 text-red-500" />
+      </button>
     </div>
   );
 };
 
 const CollectionTable = ({
   data,
-//   isLoading,
+  isLoading = false,
   pagingData,
   onChangePublished,
   onEdit,
@@ -51,17 +48,12 @@ const CollectionTable = ({
   onSelectChange,
 }: // onSort,
 CollectionTableProps) => {
-
   const columns: ColumnDef<Collection>[] = useMemo(
     () => [
       {
         header: "No",
         cell: (props) => {
-          return (
-            props.row.index +
-            1 +
-            (pagingData.page - 1) * pagingData.size
-          );
+          return props.row.index + 1 + (pagingData.page - 1) * pagingData.size;
         },
       },
       {
@@ -138,6 +130,7 @@ CollectionTableProps) => {
       <DataTable
         columns={columns}
         data={data}
+        loading={isLoading}
         pagingData={pagingData}
         onPageChange={onPageChange}
         onSelectChange={onSelectChange}

@@ -3,7 +3,7 @@
 import { Input } from "@/components/ui/input";
 import { useState, useEffect, useMemo } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import TopBannerItem from "./components/TopBannerItem";
+import TopBannerItem from "./_components/TopBannerItem";
 import _ from "lodash";
 import { TopBanner } from "@/@types/top-banner";
 import { Podcast } from "@/@types/podcast";

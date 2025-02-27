@@ -14,14 +14,15 @@ const CollectionsTableSearchTool = ({
   };
 
   return (
-    <div className="flex flex-row w-full justify-end my-5">
-      <div></div>
-      <Input
-        className="max-w-md md:w-52 md:mb-0 mb-4"
-        placeholder="Search"
-        prefix={<HiOutlineSearch className="text-lg" />}
-        onChange={onEdit}
-      />
+    <div className="flex flex-row w-full items-center justify-end my-5">
+      <div>
+        <Input
+          className="max-w-md md:w-52 md:mb-0 mb-4"
+          placeholder="Search"
+          prefix={<HiOutlineSearch className="text-lg" />}
+          onChange={onEdit}
+        />
+      </div>
     </div>
   );
 };

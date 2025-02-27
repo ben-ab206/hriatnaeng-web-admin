@@ -42,7 +42,7 @@ const AdministratorTable = ({
           onClick={onDelete}
           className="hover:bg-gray-200 rounded-full p-1"
         >
-          <Trash2Icon className="h-4 w-4 text-gray-800" />
+          <Trash2Icon className="h-4 w-4 text-red-500" />
         </button>
       </div>
     );

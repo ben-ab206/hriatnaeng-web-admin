@@ -3,7 +3,7 @@
 import { Input } from "@/components/ui/input";
 import { useEffect, useMemo, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import TopBannerItem from "./components/TopBannerItem";
+import TopBannerItem from "./_components/TopBannerItem";
 import _ from "lodash";
 import { TopBanner } from "@/@types/top-banner";
 import { Book } from "@/@types/book";
@@ -74,7 +74,10 @@ const NewBooksList = ({
           suffix={
             <div className="flex flex-row space-x-2">
               {isFetchingAllBooksContent && (
-                <LucideLoader2 size={18} className="animate-spin text-gray-400" />
+                <LucideLoader2
+                  size={18}
+                  className="animate-spin text-gray-400"
+                />
               )}
               {query !== "" && (
                 <span

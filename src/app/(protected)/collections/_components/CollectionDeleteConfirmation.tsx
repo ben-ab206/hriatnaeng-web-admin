@@ -1,7 +1,16 @@
-import { Button } from "@/components/ui/button";
-import { Dialog } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { showErrorToast, showSuccessToast } from "@/lib/utils";
 import { api } from "@/trpc/client";
+import { Loader2Icon } from "lucide-react";
 
 interface CollectionDeleteConfirmationProps {
   onClose: () => void;
@@ -33,21 +42,32 @@ const CollectionDeleteConfirmation = ({
   };
 
   return (
-    <Dialog open={dialogOpen} onOpenChange={onClose}>
-      <h5 className="mb-4">Delete</h5>
-      <p>
-        Are you sure you want to delete this collection? All record related to
-        this collection will be deleted as well. This action cannot be undone.
-      </p>
-      <div className="text-right mt-6">
-        <Button className="ltr:mr-2 rtl:ml-2" onClick={onClose}>
-          Cancel
-        </Button>
-        <Button color="red-500" loading={isPending} onClick={onDelete}>
-          Continue
-        </Button>
-      </div>
-    </Dialog>
+    <AlertDialog open={dialogOpen}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>
+            Are you absolutely sure to delete this collection?
+          </AlertDialogTitle>
+          <AlertDialogDescription>
+            Are you sure you want to delete this collection? All record related
+            to this collection will be deleted as well. This action cannot be
+            undone.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel onClick={onClose}>Cancel</AlertDialogCancel>
+          <AlertDialogAction
+            className="bg-red-500 text-white"
+            onClick={onDelete}
+          >
+            <div className="flex flex-row items-center text-white">
+              {isPending && <Loader2Icon className="animate-spin" />}
+              <span>Continue</span>
+            </div>
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };
 

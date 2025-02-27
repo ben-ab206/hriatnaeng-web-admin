@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import TopBannerHeader from "./components/TopBannerHeader";
-import TopBannerHeaderTools from "./components/TopBannerHeaderTools";
+import TopBannerHeader from "./_components/TopBannerHeader";
+import TopBannerHeaderTools from "./_components/TopBannerHeaderTools";
 import TopBannerForm from "./TopBannerForm";
 
 const TopBannersView = () => {

@@ -7,7 +7,7 @@ interface SectionTableHeaderProps {
 const SectionTableHeader = ({ onAddNew }: SectionTableHeaderProps) => {
   return (
     <div className="flex flex-row justify-between">
-      <h2>Sections</h2>
+      <h2 className="text-[30px] font-semibold">Sections</h2>
       <Button
         className=""
         size="sm"

@@ -195,7 +195,7 @@ const SectionsTable = ({ data, isLoading, onRefresh }: SectionsTableProps) => {
         <Table className="w-full">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="bg-[#447AED]">
+              <TableRow key={headerGroup.id} className="bg-[#447AED] text-white">
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead

@@ -52,15 +52,16 @@ const DefinePasswordView = () => {
 
   const { data: user, refetch } = api.users.getMe.useQuery();
 
-  const { mutateAsync: updatePassword } = api.users.definePassword.useMutation({
-    onSuccess: async () => {
-      router.push("/");
-      showSuccessToast("Successfully set password")
-    },
-    onError: (error) => {
-      showErrorToast(error.message);
-    },
-  });
+  const { mutateAsync: updatePassword, isPending } =
+    api.users.definePassword.useMutation({
+      onSuccess: async () => {
+        router.push("/");
+        showSuccessToast("Successfully set password");
+      },
+      onError: (error) => {
+        showErrorToast(error.message);
+      },
+    });
 
   const { mutateAsync: setSession } = api.auth.setSessionByToken.useMutation();
 
@@ -71,7 +72,7 @@ const DefinePasswordView = () => {
         password: values.password,
       });
     } else {
-      showErrorToast("Can't get user session data. please log in.")
+      showErrorToast("Can't get user session data. please log in.");
     }
   };
 
@@ -82,7 +83,7 @@ const DefinePasswordView = () => {
   useEffect(() => {
     const handleAuth = async () => {
       const { accessToken, refreshToken } = getTokens();
-      
+
       if (accessToken && refreshToken) {
         await setSession({
           accessToken,
@@ -169,7 +170,12 @@ const DefinePasswordView = () => {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full text-white">
+              <Button
+                disabled={isPending}
+                loading={isPending}
+                type="submit"
+                className="w-full text-white"
+              >
                 Save
               </Button>
             </form>

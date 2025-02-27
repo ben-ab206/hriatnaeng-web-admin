@@ -35,7 +35,7 @@ const CollectionsView = () => {
       query: searchValue,
     });
 
-  const { mutate: modifyCollection } =
+  const { mutateAsync: modifyCollection } =
     api.collections.updateCollection.useMutation({
       onSuccess: () => {
         refetch();
@@ -71,9 +71,9 @@ const CollectionsView = () => {
     setShowDeleteDialog(true);
   };
 
-  const onChangePublished = (v: Collection) => {
+  const onChangePublished = async (v: Collection) => {
     if (user)
-      modifyCollection({
+      await modifyCollection({
         id: v.id,
         updated_by: user.id,
         status: v.status === "Published" ? "Unpublished" : "Published",

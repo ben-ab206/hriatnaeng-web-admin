@@ -11,38 +11,25 @@ import { usePathname } from "next/navigation";
 
 const CollectionEdit = () => {
   const [collectionData, setCollectionData] = useState<FormModel>();
-  const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState<string | undefined>(undefined);
-  const [collectionId, setCollectionId] = useState<number | null>(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useRouter();
   const pathname = usePathname();
 
-  // Extract ID from pathname
-  useEffect(() => {
-    const pathParts = pathname.split("/").filter(Boolean);
-    const id = pathParts[pathParts.length - 2];
-    const category = pathParts[pathParts.length - 1];
-    setCategory(category);
-
-    if (id) {
-      setCollectionId(+id);
-    }
-  }, [pathname]);
-
-  // Move hooks to component level
   const { data: user } = api.users.getMe.useQuery();
 
-  const { data: collection, isLoading: isCollectionLoading } =
-    api.collections.fetchCollection.useQuery(
-      { id: collectionId as number },
-      { enabled: !!collectionId }
-    );
+  const id = (() => {
+    const pathParts = pathname.split("/").filter(Boolean);
+    return parseInt(pathParts[pathParts.length - 2]);
+  })();
 
   const { data: contentCollections, isLoading: isContentLoading } =
-    api.collections.fetchContentCollectionByCollectionId.useQuery(
-      { id: collectionId as number },
-      { enabled: !!collectionId }
-    );
+    api.collections.fetchContentCollectionByCollectionId.useQuery({
+      id: id ?? 0,
+    });
+
+  const { data: collection, isLoading: isCollectionLoading } =
+    api.collections.fetchCollection.useQuery({ id: id ?? 0 });
 
   const { mutate: updateCollection } =
     api.collections.updateCollection.useMutation();
@@ -52,53 +39,6 @@ const CollectionEdit = () => {
 
   const { mutate: addContentCollection } =
     api.collections.addContentCollection.useMutation();
-
-  // Process data when collection and contentCollections are loaded
-  useEffect(() => {
-    if (
-      !isCollectionLoading &&
-      !isContentLoading &&
-      collection &&
-      contentCollections
-    ) {
-      // Create a temporary array with order_number
-      const tempItems: FormItem[] = [];
-
-      // Add books with order_number to the temporary array
-      if (contentCollections.books) {
-        contentCollections.books.forEach((m) => {
-          if (m) {
-            tempItems.push({
-              id: m.id,
-              title: m.title,
-              type: "book",
-            });
-          }
-        });
-      }
-
-      // Add podcasts with order_number to the temporary array
-      if (contentCollections.podcasts) {
-        contentCollections.podcasts.forEach((m) => {
-          if (m) {
-            tempItems.push({
-              id: m.id,
-              title: m.title,
-              type: "podcast",
-            });
-          }
-        });
-      }
-
-      setCollectionData({
-        id: collection.id,
-        name: collection.name ?? "",
-        items: tempItems,
-      });
-
-      setLoading(false);
-    }
-  }, [collection, contentCollections, isCollectionLoading, isContentLoading]);
 
   const handleSubmit = async (values: FormModel) => {
     try {
@@ -131,6 +71,50 @@ const CollectionEdit = () => {
       showErrorToast("Updating collection failed.");
     }
   };
+
+  useEffect(() => {
+    if (!isCollectionLoading && !isContentLoading) {
+      setLoading(true);
+      const tempItems: FormItem[] = [];
+
+      if (contentCollections?.books) {
+        contentCollections.books.forEach((m) => {
+          if (m) {
+            tempItems.push({
+              id: m.id,
+              title: m.title,
+              type: "book",
+            });
+          }
+        });
+      }
+
+      if (contentCollections?.podcasts) {
+        contentCollections.podcasts.forEach((m) => {
+          if (m) {
+            tempItems.push({
+              id: m.id,
+              title: m.title,
+              type: "podcast",
+            });
+          }
+        });
+      }
+
+      setCollectionData({
+        id: collection?.id,
+        name: collection?.name ?? "",
+        items: tempItems,
+      });
+      setLoading(false);
+    }
+  }, [collection, contentCollections, isCollectionLoading, isContentLoading]);
+
+  useEffect(() => {
+    const pathParts = pathname.split("/").filter(Boolean);
+    const category = pathParts[pathParts.length - 1];
+    setCategory(category);
+  }, [pathname]);
 
   return (
     <Loading loading={loading || isCollectionLoading || isContentLoading}>

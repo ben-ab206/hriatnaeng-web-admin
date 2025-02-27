@@ -16,6 +16,7 @@ import { StickyFooter } from "@/components/shared";
 import { Button } from "@/components/ui/button";
 import { FormModel } from "./StaticTypes";
 import FormContentItems from "./_components/FormContentItems";
+import { useEffect } from "react";
 
 type CollectionFormProps = {
   category: string;
@@ -49,11 +50,25 @@ const CollectionForm = ({
     },
   });
 
+  useEffect(() => {
+    if (initialData) {
+      form.reset(initialData);
+    }
+  }, [initialData, form]);
+
   const { control, watch, handleSubmit } = form;
   const { append, remove } = useFieldArray({
     control,
     name: "items",
   });
+
+  console.info("-------------------------")
+
+  console.log(initialData);
+
+  console.log(form)
+
+  console.info("-------------------------")
 
   return (
     <div>
