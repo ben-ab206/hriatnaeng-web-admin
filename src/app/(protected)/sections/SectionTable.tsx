@@ -13,7 +13,6 @@ import { MdDragIndicator } from "react-icons/md";
 import classNames from "classnames";
 import { MediaSections } from "./StaticTypes";
 import SectionDeleteConfirmation from "./_components/SectionDeleteConfirmation";
-import Image from "next/image";
 import {
   Table,
   TableBody,
@@ -24,6 +23,7 @@ import {
 } from "@/components/ui/table";
 import { api } from "@/trpc/client";
 import { useRouter } from "next/navigation";
+import { Edit2Icon, Trash2Icon } from "lucide-react";
 
 interface SectionsTableProps {
   data: MediaSections[];
@@ -47,27 +47,13 @@ const ActionColumn = ({
   };
 
   return (
-    <div className="flex justify-start text-lg">
-      <span className={`cursor-pointer px-2`} onClick={onEdit}>
-        <Image
-          src={"/icons/edit-icon.png"}
-          className="h-4 w-4"
-          width={20}
-          height={20}
-          alt={"edit"}
-        />
-      </span>
-      <span
-        className="cursor-pointer px-2 hover:text-red-500"
-        onClick={onDelete}
-      >
-        <Image
-          src={"/icons/delete-icon.png"}
-          width={20}
-          height={20}
-          alt="delete"
-        />
-      </span>
+    <div className="flex flex-row space-x-3 items-center">
+      <button onClick={onEdit} className="hover:bg-gray-200 rounded-full p-1">
+        <Edit2Icon className="h-4 w-4 text-gray-800" />
+      </button>
+      <button onClick={onDelete} className="hover:bg-gray-200 rounded-full p-1">
+        <Trash2Icon className="h-4 w-4 text-red-500" />
+      </button>
     </div>
   );
 };
@@ -77,7 +63,7 @@ const SectionsTable = ({ data, isLoading, onRefresh }: SectionsTableProps) => {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   const { mutate: updateOrderNumber } = api.sections.updateSection.useMutation({
-    onSuccess: ()=> onRefresh()
+    onSuccess: () => onRefresh(),
   });
 
   const onDelete = (section: MediaSections) => {
@@ -195,7 +181,10 @@ const SectionsTable = ({ data, isLoading, onRefresh }: SectionsTableProps) => {
         <Table className="w-full">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="bg-[#447AED] text-white">
+              <TableRow
+                key={headerGroup.id}
+                className="bg-[#447AED] text-white"
+              >
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead

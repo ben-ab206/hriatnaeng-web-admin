@@ -64,6 +64,27 @@ export const authRouter = router({
       }
     }),
 
+  signOut: protectedProcedure.mutation(async ({ ctx }) => {
+    try {
+      const { error } = await ctx.supabase.auth.signOut();
+
+      if (error) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to sign out",
+        });
+      }
+
+      return { success: true };
+    } catch (error) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "An error occurred during sign out",
+        cause: error,
+      });
+    }
+  }),
+
   signIn: publicProcedure
     .input(signInSchema)
     .mutation(async ({ ctx, input }) => {
@@ -116,28 +137,6 @@ export const authRouter = router({
         });
       }
     }),
-
-  signOut: protectedProcedure.mutation(async ({ ctx }) => {
-    try {
-      const { error } = await ctx.supabase.auth.signOut();
-
-      if (error) {
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to sign out",
-        });
-      }
-
-      return { success: true };
-    } catch (error) {
-      throw new TRPCError({
-        code: "INTERNAL_SERVER_ERROR",
-        message: "An error occurred during sign out",
-        cause: error,
-      });
-    }
-  }),
-
   resetPassword: publicProcedure
     .input(resetPasswordSchema)
     .mutation(async ({ ctx, input }) => {
@@ -211,7 +210,7 @@ export const authRouter = router({
 
       const { data: userData, error: userError } = await ctx.supabase
         .from("users")
-        .select("*")
+        .select("*, roles!inner(*)")
         .eq("user_id", session.user.id)
         .single();
 

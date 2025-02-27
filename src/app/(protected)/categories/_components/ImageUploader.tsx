@@ -26,11 +26,10 @@ const ImageUploader = ({ image, setImage, setFileName }: ImageUploaderProps) => 
   };
 
   const removeImage = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault(); // Prevent default button behavior
-    event.stopPropagation(); // Prevent event bubbling
+    event.preventDefault(); 
+    event.stopPropagation();
     setImage(null);
     setFileName("");
-    console.log(event)
 
     const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
     if (fileInput) {
@@ -58,25 +57,20 @@ const ImageUploader = ({ image, setImage, setFileName }: ImageUploaderProps) => 
                 <button
                 type="button"
                   onClick={() => setModalOpen(true)}
-                  className="bg-white p-2 rounded-full hover:bg-gray-200"
+                  className="text-white hover:text-white hover:bg-black/20"
                 >
-                  <Eye className="w-5 h-5 text-gray-700" />
+                  <Eye className="w-5 h-5" />
                 </button>
                 <button
                   onClick={removeImage}
-                  className="bg-white p-2 rounded-full hover:bg-gray-200"
+                  className="text-white hover:text-white hover:bg-black/20"
                 >
-                  <Trash className="w-5 h-5 text-red-500" />
+                  <Trash className="w-5 h-5" />
                 </button>
               </div>
             </div>
           ) : (
             <label className="w-full h-full border-2 border-dashed border-gray-400 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-gray-600">
-              {/* <img
-                src="/icons/image-upload-icon.png"
-                className="h-5 w-5"
-                alt="Upload icon"
-              /> */}
               <Image
                 src="/icons/image-upload-icon.png"
                 width={30}

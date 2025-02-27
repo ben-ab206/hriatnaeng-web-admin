@@ -71,7 +71,7 @@ export const usersRouter = router({
 
     const { data: user, error: userError } = await ctx.supabase
       .from(TABLE_USERS)
-      .select("*")
+      .select("*, roles!inner(*)")
       .eq("user_id", authUser.user.id)
       .single();
 

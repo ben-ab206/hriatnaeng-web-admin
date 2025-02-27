@@ -13,4 +13,11 @@ const newAdminSchema = z.object({
   }),
 });
 
-export { newAdminSchema };
+const updateUserProfileSchema = z.object({
+  id: z.number().min(1, { message: "id is required"}),
+  name: z.string().optional(),
+  phone_number: z.string().optional(),
+  profile_path: z.string().optional()
+});
+
+export { newAdminSchema, updateUserProfileSchema };
