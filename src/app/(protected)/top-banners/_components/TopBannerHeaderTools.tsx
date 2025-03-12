@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { SearchIcon } from "lucide-react";
+// import { SearchIcon } from "lucide-react";
 
 interface TopBannerHeaderTools {
   onTabChange: (value: string) => void;
@@ -26,8 +26,8 @@ const TopBannerHeaderTools = ({
     <div className="flex flex-row justify-between items-center">
       <div className="flex flex-row space-x-2 items-center">
         <Button
-          className={cn("bg-transparent text-black hover:text-white", {
-            "bg-primary text-white": tabValue === "home",
+          className={cn("bg-transparent text-[#5C769B] rounded-sm hover:text-white", {
+            "bg-[#EBEEF3] text-[#1F2532]": tabValue === "home",
           })}
           size={"sm"}
           onClick={() => onTabChange("home")}
@@ -35,8 +35,8 @@ const TopBannerHeaderTools = ({
           Home
         </Button>
         <Button
-          className={cn("bg-transparent text-black hover:text-white", {
-            "bg-primary text-white": tabValue === "books",
+          className={cn("bg-transparent text-[#5C769B] rounded-sm hover:text-white", {
+            "bg-[#EBEEF3] text-[#1F2532]": tabValue === "books",
           })}
           size={"sm"}
           onClick={() => onTabChange("books")}
@@ -44,8 +44,8 @@ const TopBannerHeaderTools = ({
           Books
         </Button>
         <Button
-          className={cn("bg-transparent text-black hover:text-white", {
-            "bg-primary text-white": tabValue === "podcasts",
+          className={cn("bg-transparent text-[#5C769B] rounded-sm hover:text-white", {
+            "bg-[#EBEEF3] text-[#1F2532]": tabValue === "podcasts",
           })}
           size={"sm"}
           onClick={() => onTabChange("podcasts")}
@@ -54,7 +54,8 @@ const TopBannerHeaderTools = ({
         </Button>
       </div>
       <div>
-        <Input value={searchValue} prefix={<SearchIcon className="h-4 w-4"/>} placeholder="Search" onChange={handleInputChange}/>
+        {/* <Input value={searchValue} prefix={<SearchIcon className="h-4 w-4"/>} placeholder="Search" onChange={handleInputChange}/> */}
+        <Input value={searchValue} placeholder="Search..." onChange={handleInputChange}/>
       </div>
     </div>
   );

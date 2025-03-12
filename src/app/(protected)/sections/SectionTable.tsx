@@ -48,11 +48,11 @@ const ActionColumn = ({
 
   return (
     <div className="flex flex-row space-x-3 items-center">
-      <button onClick={onEdit} className="hover:bg-gray-200 rounded-full p-1">
-        <Edit2Icon className="h-4 w-4 text-gray-800" />
+      <button onClick={onEdit} className=" rounded-full p-1">
+        <Edit2Icon className="h-4 w-4 text-[#5C769B]" />
       </button>
-      <button onClick={onDelete} className="hover:bg-gray-200 rounded-full p-1">
-        <Trash2Icon className="h-4 w-4 text-red-500" />
+      <button onClick={onDelete} className=" rounded-full p-1">
+        <Trash2Icon className="h-4 w-4 text-[#5C769B]" />
       </button>
     </div>
   );
@@ -132,7 +132,7 @@ const SectionsTable = ({ data, isLoading, onRefresh }: SectionsTableProps) => {
         },
       },
       {
-        header: "Items",
+        header: "Book",
         cell: ({ row }) => {
           if (row.original.type === "book") {
             const titleList = Array.isArray(row.original.books)

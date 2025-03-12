@@ -28,6 +28,7 @@ const CategoryView = () => {
     const {
         data: categories,
         isLoading,
+        isFetching,
         refetch,
     } = api.categories.getCategories.useQuery({
         query: searchQuery,
@@ -196,7 +197,7 @@ const CategoryView = () => {
             />
             <CategoryTable
                 data={categories?.data ?? []}
-                loading={isLoading}
+                loading={isLoading || isFetching}
                 pagingData={pagingData}
                 onPageChange={onPageChange}
                 onSelectChange={onSelectChange}

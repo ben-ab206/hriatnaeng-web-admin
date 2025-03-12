@@ -1,15 +1,16 @@
 interface AddSeasonButtonProps {
-    onActionNewContent: () => void;
+  onActionNewContent: () => void;
+  text: string;
 }
 
-const AddContentButton = ({ onActionNewContent }: AddSeasonButtonProps) => {
+const AddContentButton = ({ text, onActionNewContent }: AddSeasonButtonProps) => {
   return (
     <>
       <button
-        className="w-full py-2 border-dotted rounded-[5px] border-gray-100 border-2 bg-gray-100"
+        className="w-full py-2 border text-gray-600 border-dotted rounded-[5px] border-gray-200 border-2 bg-gray-50"
         onClick={onActionNewContent}
       >
-        Add new season
+        {text}
       </button>
     </>
   );

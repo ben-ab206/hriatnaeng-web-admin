@@ -29,6 +29,12 @@ const contentManagementRoutes: NavItem[] = [
     module: "categories",
   },
   {
+    title: "People",
+    url: "/people",
+    icon: "categories",
+    module: "people",
+  },
+  {
     title: "Top Banners",
     url: "/top-banners",
     icon: "topbanners",

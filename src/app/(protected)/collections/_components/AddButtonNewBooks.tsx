@@ -6,7 +6,7 @@ const AddButtonNewBooks = ({ onActionNew }: AddButtonMoviesShowsProps) => {
   return (
     <button
       type="button"
-      className="w-full py-3 border-dotted rounded-[5px] border-gray-600 border-2 hover:shadow-md"
+      className="!bg-primary w-full py-3 border-dotted rounded-[5px] border-2 hover:shadow-md"
       onClick={onActionNew}
     >
       Add new book

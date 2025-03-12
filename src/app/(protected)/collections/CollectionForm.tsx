@@ -62,14 +62,6 @@ const CollectionForm = ({
     name: "items",
   });
 
-  console.info("-------------------------")
-
-  console.log(initialData);
-
-  console.log(form)
-
-  console.info("-------------------------")
-
   return (
     <div>
       <Form {...form}>

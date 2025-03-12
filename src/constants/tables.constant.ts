@@ -13,3 +13,6 @@ export const TABLE_PEOPLE_ROLES = "people_roles";
 export const TABLE_CONTENT_PEOPLE_RELATION = "content_people_relation";
 export const TABLE_SECTIONS = "sections";
 export const TABLE_CONTENT_SECTIONS_RELATION = "content_sections_relation";
+export const TABLE_AUDIOS = "audios";
+export const TABLE_BOOK_CONTENTS = "book_contents";
+export const TABLE_CONTENT_CATEGORY_RELATION = "content_categories_relation";

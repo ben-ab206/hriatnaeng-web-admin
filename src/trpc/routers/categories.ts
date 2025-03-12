@@ -1,6 +1,9 @@
 import { z } from "zod";
 import { protectedProcedure, router } from "../server";
-import { TABLE_CATEGORIES } from "@/constants/tables.constant";
+import {
+  TABLE_CATEGORIES,
+  TABLE_CONTENT_CATEGORY_RELATION,
+} from "@/constants/tables.constant";
 import { Category } from "@/@types/category";
 
 export const categoriesRouter = router({
@@ -218,5 +221,34 @@ export const categoriesRouter = router({
       };
 
       return await deleteCategory(input);
+    }),
+  insertCOntentCategoriesRelation: protectedProcedure
+    .input(
+      z.object({
+        book_id: z.number().optional(),
+        podcast_id: z.number().optional(),
+        category_id: z.number().min(1, "category_id is required"),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { data, error } = await ctx.supabase
+        .from(TABLE_CONTENT_CATEGORY_RELATION)
+        .insert(input)
+        .select()
+        .single();
+
+      if (error) throw error.message;
+
+      return data;
+    }),
+  deleteContentCategoriesRelationByBookId: protectedProcedure
+    .input(z.number())
+    .mutation(async ({ ctx, input }) => {
+      const { error } = await ctx.supabase
+        .from(TABLE_CONTENT_CATEGORY_RELATION)
+        .delete()
+        .eq("book_id", input);
+
+      if (error) throw error.message;
     }),
 });

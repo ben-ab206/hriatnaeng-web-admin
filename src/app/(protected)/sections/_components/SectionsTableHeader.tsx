@@ -9,7 +9,7 @@ const SectionTableHeader = ({ onAddNew }: SectionTableHeaderProps) => {
     <div className="flex flex-row justify-between">
       <h2 className="text-[30px] font-semibold">Sections</h2>
       <Button
-        className=""
+        className="!bg-[#447AED] !text-[#F5F5F5] font-semibold rounded-sm"
         size="sm"
         onClick={onAddNew}
       >

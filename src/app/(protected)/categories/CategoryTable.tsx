@@ -3,6 +3,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "../../../components/ui/data-table";  
 import { PagingData } from "@/@types/paging-data";  
 import Image from 'next/image'
+import { useMemo } from "react";
 
 interface CategoryTableProps {
     pagingData: PagingData;
@@ -56,7 +57,8 @@ const CategoryTable = ({
 
     console.info(loading);
 
-    const columns: ColumnDef<Category>[] = [
+    const columns: ColumnDef<Category>[] = useMemo(
+        () => [
         {
             header: "No.",
             cell: ({ row }) =>
@@ -98,17 +100,21 @@ const CategoryTable = ({
                 />
             ),
         },
-    ];
+    ],
+    []
+)
 
     return (
-        <DataTable
-            columns={columns}
-            data={data}
-            loading={loading}
-            onPageChange={onPageChange}
-            onSelectChange={onSelectChange}
-            pagingData={pagingData}
-        />
+        <>
+            <DataTable
+                columns={columns}
+                data={data}
+                loading={loading}
+                onPageChange={onPageChange}
+                onSelectChange={onSelectChange}
+                pagingData={pagingData}
+            />
+        </>
     );
 };
 

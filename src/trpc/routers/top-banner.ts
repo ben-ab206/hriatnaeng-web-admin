@@ -9,6 +9,30 @@ import {
 } from "../schema/top-banner.schema";
 
 export const topBannerRouters = router({
+  uploadTopBannerImage: protectedProcedure
+    .input(
+      z.object({
+        fileName: z.string(),
+        filePath: z.string(), // Ensure this expects a base64 string
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { fileName, filePath } = input;
+
+      const { error } = await ctx.supabase.storage
+        .from("store") 
+        .upload(`top_banners/${fileName}`, Buffer.from(filePath, "base64"), {
+          contentType: "image/png",
+        });
+
+      if (error) throw error;
+
+      const { data: urlData } = ctx.supabase.storage
+        .from("store")
+        .getPublicUrl(`top_banners/${fileName}`);
+
+      return { url: urlData.publicUrl };
+    }),
   getAllTopBanners: protectedProcedure
     .input(
       z.object({
@@ -43,6 +67,28 @@ export const topBannerRouters = router({
   deleteBannerById: protectedProcedure
     .input(z.number())
     .mutation(async ({ ctx, input }) => {
+      const { data: top_banner, error: topBannerError } = await ctx.supabase
+        .from(TABLE_TOP_BANNERS)
+        .select("image_path")
+        .eq("id", input)
+        .single();
+
+      if (topBannerError) {
+        throw new Error(`Failed to fetch top banner: ${topBannerError.message}`);
+      }
+
+      if (top_banner?.image_path) {
+        const urlParts = top_banner.image_path.split("/store/top_banners/"); 
+        if (urlParts.length > 1) {
+          const filename = `top_banners/${urlParts[1]}`;
+          const { error } = await ctx.supabase.storage
+            .from("store")
+            .remove([filename]);
+
+          if (error) throw error;
+        }
+      }
+
       const { error } = await ctx.supabase
         .from(TABLE_TOP_BANNERS)
         .delete()
@@ -87,6 +133,32 @@ export const topBannerRouters = router({
   updateTopBanner: protectedProcedure
     .input(updateTopBannerSchema)
     .mutation(async ({ ctx, input }) => {
+      const { data: selectImage, error: selectImageError } = await ctx.supabase
+        .from(TABLE_TOP_BANNERS)
+        .select("image_path")
+        .eq("id", input.id)
+        .single();
+
+      if (selectImageError) {
+        throw new Error(`Failed to fetch IMage : ${selectImageError.message}`);
+      }
+
+      const deleteImage = async (imagePath: string) => {
+        const urlParts = imagePath.split("/store/top_banners/");
+        if (urlParts.length > 1) {
+          const filename = `top_banners/${urlParts[1]}`;
+          const { error } = await ctx.supabase.storage
+            .from("store")
+            .remove([filename]);
+
+          if (error) throw error;
+        }
+      };
+      
+      if (selectImage?.image_path) {
+        await deleteImage(selectImage.image_path);
+      } 
+      
       const { data, error } = await ctx.supabase
         .from(TABLE_TOP_BANNERS)
         .update(input)

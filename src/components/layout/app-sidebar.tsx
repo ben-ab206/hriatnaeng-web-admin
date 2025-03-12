@@ -14,7 +14,6 @@ import {
   contentManagementRoutes,
   userManagementRoutes,
 } from "@/configs/routes.config";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 export function AppSidebar() {
@@ -30,14 +29,15 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader>
-        <div className="flex flex-row items-center justify-center">
-          <Image
+        {/* <div className="flex flex-row items-center justify-center "> */}
+        {/* <Image
             src="/hriatna-eng-logo.png"
             width={80}
             height={80}
             alt="LOGO"
-          />
-        </div>
+          /> */}
+        <h4 className="font-semibold text-xl p-6">Hriatna Eng</h4>
+        {/* </div> */}
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
@@ -59,7 +59,7 @@ export function AppSidebar() {
                   >
                     <a href={item.url}>
                       {navigationIcon[item.icon]}
-                      <span>{item.title}</span>
+                      <span className="font-medium">{item.title}</span>
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -80,7 +80,7 @@ export function AppSidebar() {
                   >
                     <a href={item.url}>
                       {navigationIcon[item.icon]}
-                      <span>{item.title}</span>
+                      <span className="font-medium">{item.title}</span>
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -101,7 +101,7 @@ export function AppSidebar() {
                   >
                     <a href={item.url}>
                       {navigationIcon[item.icon]}
-                      <span>{item.title}</span>
+                      <span className="font-medium">{item.title}</span>
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

@@ -139,7 +139,7 @@ export const usersRouter = router({
 
       if (error) throw error;
 
-      const { data: user, error: userError } = await ctx.supabase
+      const { error: userError } = await ctx.supabase
         .from(TABLE_USERS)
         .update({ is_active: true })
         .eq("email", input.email)
@@ -147,8 +147,6 @@ export const usersRouter = router({
         .single();
 
       if (userError) throw new Error("Fail to update user information");
-
-      console.info(user);
 
       return data;
     }),

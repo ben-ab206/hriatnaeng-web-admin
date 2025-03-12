@@ -24,7 +24,7 @@ import {
 import { api } from "@/trpc/client";
 import { NewCategoryType } from "./StaticTypes";
 import ImageUploader from "./_components/ImageUploader";
-import { generateTimestamp } from "@/serives/common";
+import { generateTimestamp } from "@/lib/utils";
 
 interface CategoryFormProps {
   isSubmitting?: boolean;
@@ -46,10 +46,10 @@ const CategoryForm = ({
   const form = useForm<z.infer<typeof newCategorySchema>>({
     resolver: zodResolver(newCategorySchema),
     defaultValues: initialData
-      ?{
-        ...initialData,
-        image: imageFile || undefined,
-      }
+      ? {
+          ...initialData,
+          image: imageFile || undefined,
+        }
       : {
           name: "",
           description: "",
@@ -59,11 +59,12 @@ const CategoryForm = ({
         },
   });
 
-  const { data: categoryList = [] } = api.categories.getAllCAtegories.useQuery();
+  const { data: categoryList = [] } =
+    api.categories.getAllCAtegories.useQuery();
 
   useEffect(() => {
     if (initialData?.image) {
-      setImage(initialData.image); 
+      setImage(initialData.image);
     }
   }, [initialData]);
 
@@ -85,13 +86,12 @@ const CategoryForm = ({
       form.setValue("image", undefined);
     }
   }, [image, fileName, form]);
-  
-  
+
   const handleSubmit = async (values: z.infer<typeof newCategorySchema>) => {
     try {
       let imageUrl: string | undefined = undefined;
 
-      let  filePath = ""
+      let filePath = "";
       if (imageFile) {
         const fileExt = fileName.split(".").pop();
         filePath = `${generateTimestamp()}.${fileExt}`;
@@ -99,20 +99,20 @@ const CategoryForm = ({
 
       if (!imageFile) {
         imageUrl = image ?? undefined;
-      } else imageUrl = imageFile
-  
+      } else imageUrl = imageFile;
+
       const submissionValues = {
         ...values,
-        image: imageUrl, 
+        image: imageUrl,
         filePath: filePath,
       };
-  
+
       await onClickSave(submissionValues);
     } catch (error) {
       console.error("Error submitting form:", error);
     }
   };
-  
+
   return (
     <div>
       <Form {...form}>
@@ -124,11 +124,11 @@ const CategoryForm = ({
             render={() => (
               <FormItem>
                 <FormControl>
-                  <ImageUploader 
-                    image={image} 
-                    setImage={setImage} 
-                    fileName={fileName} 
-                    setFileName={setFileName} 
+                  <ImageUploader
+                    image={image}
+                    setImage={setImage}
+                    fileName={fileName}
+                    setFileName={setFileName}
                   />
                 </FormControl>
                 <FormMessage />
@@ -157,7 +157,9 @@ const CategoryForm = ({
               <FormItem>
                 <FormLabel>Parent Category</FormLabel>
                 <Select
-                  defaultValue={field.value ? field.value.toString() : undefined}
+                  defaultValue={
+                    field.value ? field.value.toString() : undefined
+                  }
                   onValueChange={(value) => field.onChange(Number(value))}
                 >
                   <FormControl>
@@ -191,10 +193,7 @@ const CategoryForm = ({
               <FormItem>
                 <FormLabel>Description</FormLabel>
                 <FormControl>
-                  <Input
-                    {...field}
-                    type="text"
-                  />
+                  <Input {...field} type="text" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -209,7 +208,7 @@ const CategoryForm = ({
             >
               Cancel
             </Button>
-            <Button 
+            <Button
               className="!bg-[#447AED] !text-[#F5F5F5] font-semibold rounded-sm cursor-pointer"
               type="submit"
               loading={isSubmitting}
