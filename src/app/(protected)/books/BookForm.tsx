@@ -595,13 +595,13 @@ const BookForm = ({
       </div>
 
       <Dialog open={contentFormDialog} onOpenChange={onDialogClose}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-[80vw] sm:max-h-[80vh]">
           <DialogHeader>
             <DialogTitle>
               {editContentItem ? "Edit Content Form" : "Add New Content"}
             </DialogTitle>
           </DialogHeader>
-          <div>
+          <div className="pt-5">
             <BookContentForm
               onCancel={onDialogClose}
               initialData={editContentItem}

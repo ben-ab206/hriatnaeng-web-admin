@@ -155,7 +155,7 @@ const CategoryForm = ({
             name="parent_id"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Parent Category</FormLabel>
+                <FormLabel>Parent (Optional)</FormLabel>
                 <Select
                   defaultValue={
                     field.value ? field.value.toString() : undefined
@@ -176,7 +176,20 @@ const CategoryForm = ({
                           key={idx}
                           className="hover:bg-gray-100"
                         >
-                          {c.name}
+                            <div className="flex items-center gap-2">
+                              {c.image_path ? (
+                                <img
+                                  src={c.image_path}
+                                  alt={c.name}
+                                  className="w-8 h-8 rounded-full object-cover"
+                                />
+                              ) : (
+                                <div className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-300 text-black font-bold uppercase">
+                                {(c.name ?? "N").charAt(0)}
+                                </div>
+                              )}
+                              <span>{c.name}</span>
+                            </div>
                         </SelectItem>
                       ))}
                   </SelectContent>
@@ -186,7 +199,7 @@ const CategoryForm = ({
             )}
           />
 
-          <FormField
+          {/* <FormField
             control={form.control}
             name="description"
             render={({ field }) => (
@@ -198,7 +211,7 @@ const CategoryForm = ({
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
 
           <div className="text-right mt-6">
             <Button

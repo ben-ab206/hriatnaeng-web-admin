@@ -13,9 +13,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { Loader2Icon } from "lucide-react";
+import RichTextEditor from "@/components/ui/rich-text-editor";
 
 interface BookContentFormProps {
   initialData?: BookContentModel;
@@ -58,6 +58,8 @@ const BookContentForm = ({
     }
   });
 
+  // console.log(form.formState);
+
   return (
     <div>
       <Form {...form}>
@@ -96,10 +98,10 @@ const BookContentForm = ({
                 <FormItem>
                   <FormLabel>Content</FormLabel>
                   <FormControl>
-                    <Textarea
+                    <RichTextEditor
                       {...field}
-                      rows={10}
-                      placeholder="Enter your content here..."
+                      content={field.value}
+                      onChange={field.onChange}
                     />
                   </FormControl>
                   <FormMessage />

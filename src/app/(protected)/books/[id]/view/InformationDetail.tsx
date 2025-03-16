@@ -19,8 +19,10 @@ const InformationDetail = ({ book }: InformationDetailProps) => {
               alt="cover_image"
             />
             <div className="flex flex-col space-y-3">
-              <span>{book.title}</span>
-              <span>{book.subtitle ?? "-"}</span>
+              <div className="flex flex-col">
+                <span className="text-xl">{book.title}</span>
+                <span>{book.subtitle ?? "-"}</span>
+              </div>
               <span>{book.authors?.map((au) => au.name).join(", ")}</span>
               <div className="flex flex-row space-x-3">
                 <div className="bg-gray-200 rounded-[10px] py-1 px-2">

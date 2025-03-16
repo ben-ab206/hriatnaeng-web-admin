@@ -40,8 +40,11 @@ export const categoriesRouter = router({
         query: z.string().optional().default(""),
         page: z.number().optional().default(1),
         size: z.number().optional().default(10),
-        sort_by_created_at: z.enum(["asc", "desc"]).optional().default("desc"),
-        sort_by_name: z.enum(["asc", "desc"]).optional().default("desc"),
+        sort_by_created_at: z
+          .enum(["asc", "desc", ""])
+          .optional()
+          .default("desc"),
+        sort_by_name: z.enum(["asc", "desc", ""]).optional().default("desc"),
       })
     )
     .query(async ({ ctx, input }) => {
@@ -128,6 +131,22 @@ export const categoriesRouter = router({
 
       if (error) throw error;
       return data;
+    }),
+  getQty: protectedProcedure
+    .input(
+      z.object({
+        id: z.number(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      // Change `.mutation` to `.query`
+      const { count, error } = await ctx.supabase
+        .from(TABLE_CONTENT_CATEGORY_RELATION)
+        .select("*", { count: "exact", head: true })
+        .eq("category_id", input.id);
+
+      if (error) throw error;
+      return count ?? 0; // Return count directly instead of `data`
     }),
 
   deleteCategory: protectedProcedure

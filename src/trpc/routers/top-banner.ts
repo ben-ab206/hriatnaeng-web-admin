@@ -136,9 +136,10 @@ export const topBannerRouters = router({
       const { data: selectImage, error: selectImageError } = await ctx.supabase
         .from(TABLE_TOP_BANNERS)
         .select("image_path")
-        .eq("id", input.id)
-        .single();
-
+        .neq("image_path", input.image_path)
+        .limit(1) // Ensure only one row is fetched
+        .maybeSingle();
+      
       if (selectImageError) {
         throw new Error(`Failed to fetch IMage : ${selectImageError.message}`);
       }

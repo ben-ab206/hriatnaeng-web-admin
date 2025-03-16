@@ -40,7 +40,7 @@ export interface AudioContentModel {
 }
 
 const audioContentSchema = z.object({
-  id: z.number().optional(),
+  id: z.union([z.string(), z.number()]).optional(),
   label: z.string().min(1, { message: "label is required" }),
   title: z.string().min(1, { message: "title is required" }),
   content: z.string().min(1, { message: "content is required" }),
